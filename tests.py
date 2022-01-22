@@ -1,9 +1,4 @@
-a=b('nis')
-while (True) :
-    if(x==a) :
-        c = s(a,1)
-        break
-    x=x+1
-q=z(c)
+a=""
+d=a
 
 # tip: the number of steps that may lead to the encoding of a vulnerability or sanitization may depend on runtime information.

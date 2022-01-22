@@ -1,5 +1,5 @@
 from utils import Variable
-
+import copy
 
 class VariablesBuffer:
     buffer = {}
@@ -12,6 +12,9 @@ class VariablesBuffer:
     
     def getVariableObject(name):
         return VariablesBuffer.buffer[name]
+    
+    def getBufferDeepCopy():
+        return copy.deepcopy(VariablesBuffer.buffer)
     
 
         
