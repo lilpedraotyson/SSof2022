@@ -19,6 +19,13 @@ class Variable:
 	def eval(self):
 		return None
 
+class Break:
+	def __init__(self): 
+		return
+	def __repr__(self) -> str:
+		return 'Break()'
+
+
 class Function:
 	def __init__(self, name, argsList):
 		self.name = name
@@ -37,6 +44,9 @@ class Expression:
 	def __init__(self, left, right):
 		self.left = left
 		self.right = right
+	
+	def __repr__(self) -> str:
+		return 'Expression(%s, %s)' % (self.left, self.right)
 
 	def eval(self):
 		self.left.eval()
@@ -51,7 +61,7 @@ class Body:
 		result = ""
 		for statement in self.statementsList:
 			result += '\n' + str(statement)
-		return '--------------Body--------------%s' % (result)
+		return 'Body(%s)' % (result)
 
 	def eval(self):
 		for statement in self.statementsList:
@@ -87,6 +97,9 @@ class If(Statement):
 		self.thenBlock = thenBlock
 		self.elseBlock = elseBlock
 
+	def __repr__(self) -> str:
+		return 'If(Condition: %s, ThenBlock: %s, ElseBlock: %s)' % (self.condition, self.thenBlock, self.elseBlock)
+
 	def eval(self):
 		self.condition.eval()
 		self.thenBlock.eval()
@@ -96,6 +109,9 @@ class While(Statement):
 	def __init__(self, condition, block):
 		self.condition = condition
 		self.block = block
+	
+	def __repr__(self) -> str:
+		return 'While(Condition: %s, block: %s)' % (self.condition, self.block)
 
 	def eval(self):
 		self.condition.eval()
