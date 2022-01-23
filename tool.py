@@ -1,5 +1,4 @@
 import sys, json, createObject, copy, utils
-
 from variablesBuffer import VariablesBuffer
 from vulnerabilitiesReport import VulnerabilitiesReport
 #import ast
@@ -83,7 +82,6 @@ def createAst(astTreeInput, patternsInput):
     for pattern in patterns:
         variableBuffer = copy.deepcopy(initialVariableBuffer)
         setupVariablesTaintness(variableBuffer, pattern)
-        #print(pattern)
         taintTheTree(pattern, variableBuffer, body)
     
     print(cleanErrorsOutput(VulnerabilitiesReport.errors))
@@ -101,5 +99,5 @@ def taintTheTree(pattern,variableBuffer, body):
 if __name__ == "__main__":
     astTree = open(sys.argv[1], "r")
     patterns = open(sys.argv[2], "r")
-    
+
     createAst(astTree.read(),patterns.read())
