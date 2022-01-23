@@ -1,5 +1,6 @@
 import sys, json, createObject, copy, utils
 from variablesBuffer import VariablesBuffer
+from vulnerabilitiesReport import VulnerabilitiesReport
 #import ast
 
 def parsePatterns(patternsJson):
@@ -22,16 +23,20 @@ def setupVariablesTaintness(variableBuffer, patterns):
 
 def createAst(astTreeInput, patternsInput):
     patterns = parsePatterns(json.loads(patternsInput))
+    VulnerabilitiesReport.setup(patterns)
     astInput = json.loads(astTreeInput)
     astBody = astInput["body"]
     body = createObject.createBodyObject(astBody)
     print(body)
+    print("-----EVALUATE----")
     initialVariableBuffer = VariablesBuffer.getBufferDeepCopy()
     for pattern in patterns:
         variableBuffer = copy.deepcopy(initialVariableBuffer)
         setupVariablesTaintness(variableBuffer, pattern)
         #print(pattern)
         taintTheTree(pattern, variableBuffer, body)
+    
+    print(VulnerabilitiesReport.errors)
 
 def taintTheTree(pattern,variableBuffer, body):
     for statement in body.statementsList:
