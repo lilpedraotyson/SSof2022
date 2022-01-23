@@ -1,4 +1,5 @@
 from vulnerabilitiesReport import VulnerabilitiesReport
+import copy
 
 class Constant:
 	def __init__(self, value):
@@ -53,14 +54,14 @@ class Function:
 			return True
 
 		argumentsTainted = []
-		print("Function Name: " , self.name)
-		print("Arguments: " , self.argsList)
+		#print("Function Name: " , self.name)
+		#print("Arguments: " , self.argsList)
 		for argument in self.argsList:
 			isTaint = argument.isTainted(pattern, variablesBuffer)
 			if isTaint:
 				argumentsTainted.append(argument)
 		
-		print("arguments Tainted of function {} : {}".format(self.name, argumentsTainted))
+		#print("arguments Tainted of function {} : {}".format(self.name, argumentsTainted))
 		
 		#sink(taint) -> taint !!!ERROR -> ITERATE on path of expressionTainted AND FIND THE SOURCES
 							#ASSOCIATED and save in a global variable !!! TODO
@@ -69,7 +70,7 @@ class Function:
 			#ERROR !!!ITERATE on path of expressionTainted AND FIND THE SOURCES
 							#ASSOCIATED and save in a global variable !!! TODO
 			for argument in argumentsTainted:
-				iterateAndFindSourceOfError(pattern,variablesBuffer, self.name, argument)
+				iterateAndFindSourceOfError(pattern,variablesBuffer, self.name, argument, [])
 			return True
 			
 		elif len(argumentsTainted) != 0:
@@ -136,7 +137,7 @@ class Assignment(Statement):
 			#ASSOCIATED and save in a global variable #TODO
 			variablesBuffer[self.variable.name].tainted = True
 			variablesBuffer[self.variable.name].path = self.expression
-			iterateAndFindSourceOfError(pattern,variablesBuffer, self.variable.name, self.expression)
+			iterateAndFindSourceOfError(pattern,variablesBuffer, self.variable.name, self.expression, [])
 			variablesBuffer[self.variable.name].assigned = True
 			return True
 		elif variablesBuffer[self.variable.name].type == "source":
@@ -181,28 +182,40 @@ class While(Statement):
 		self.condition.isTainted()
 		self.block.isTainted()
 
-def createErrorObject(sinkName, sourceName):
-	return {"source": sourceName, "sink": sinkName}
+def createErrorObject(sinkName, sourceName, sanitizerFunctionsPassed):
+	return {"source": sourceName, "sink": sinkName, "sanitized flows": sanitizerFunctionsPassed}
 
-def iterateAndFindSourceOfError(pattern, variablesBuffer, sinkName, expressionToIterate):
+def iterateAndFindSourceOfError(pattern, variablesBuffer, sinkName, expressionToIterate, sanitizerFunctionsPassed):
 	print(expressionToIterate)
 	if isinstance(expressionToIterate, Variable):
 		target = variablesBuffer[expressionToIterate.name]
 		if target.type == "source":
-			VulnerabilitiesReport.addError(pattern["vulnerability"], createErrorObject(sinkName, target.name))
+			VulnerabilitiesReport.addError(pattern["vulnerability"], createErrorObject(sinkName, target.name, sanitizerFunctionsPassed))
 		
-		iterateAndFindSourceOfError(pattern,variablesBuffer, sinkName, target.path)
+		iterateAndFindSourceOfError(pattern,variablesBuffer, sinkName, target.path, sanitizerFunctionsPassed)
 
 	elif isinstance(expressionToIterate, Function):
+		if expressionToIterate.name in pattern["sanitizers"]:
+			print("passed:" , sanitizerFunctionsPassed)
+			if len(sanitizerFunctionsPassed) != 0:
+				sanitizerFunctionsUpdate = copy.deepcopy(sanitizerFunctionsPassed)
+				sanitizerFunctionsUpdate.append(expressionToIterate.name)
+			else:
+				sanitizerFunctionsUpdate = [expressionToIterate.name]
+			print("update:" , sanitizerFunctionsUpdate)
+			for argument in expressionToIterate.argsList:
+				iterateAndFindSourceOfError(pattern, variablesBuffer, sinkName, argument, sanitizerFunctionsUpdate)
+			return
+
 		if expressionToIterate.name in pattern["sources"]:
-			VulnerabilitiesReport.addError(pattern["vulnerability"], createErrorObject(sinkName, expressionToIterate.name))
-		
+			VulnerabilitiesReport.addError(pattern["vulnerability"], createErrorObject(sinkName, expressionToIterate.name, sanitizerFunctionsPassed))
+
 		for argument in expressionToIterate.argsList:
-			iterateAndFindSourceOfError(pattern, variablesBuffer, sinkName, argument)
+			iterateAndFindSourceOfError(pattern, variablesBuffer, sinkName, argument, sanitizerFunctionsPassed)
 	
 	elif isinstance(expressionToIterate, Expression):
-		iterateAndFindSourceOfError(pattern, variablesBuffer, sinkName, expressionToIterate.leftSide)
-		iterateAndFindSourceOfError(pattern, variablesBuffer, sinkName, expressionToIterate.rightSide)
+		iterateAndFindSourceOfError(pattern, variablesBuffer, sinkName, expressionToIterate.leftSide, sanitizerFunctionsPassed)
+		iterateAndFindSourceOfError(pattern, variablesBuffer, sinkName, expressionToIterate.rightSide, sanitizerFunctionsPassed)
 	
 	else:
 		print("target was '{}'".format(expressionToIterate))
