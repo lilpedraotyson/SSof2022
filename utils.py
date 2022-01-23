@@ -9,7 +9,7 @@ class Constant:
 	def __repr__(self) -> str:
 		return 'Constant(%s)' % (self.value)
 	
-	def isTainted(self, pattern, variablesBuffer):
+	def isTainted(self, pattern, variablesBuffer, bodyListStatements):
 		return False
 
 class Variable:
@@ -23,7 +23,7 @@ class Variable:
 	def __repr__(self) -> str:
 		return 'Variable(%s)' % (self.name)
 
-	def isTainted(self, pattern, variablesBuffer):
+	def isTainted(self, pattern, variablesBuffer, bodyListStatements):
 		if variablesBuffer[self.name].assigned == False:
 			variablesBuffer[self.name].tainted = True
 			variablesBuffer[self.name].type = "source"
@@ -36,7 +36,7 @@ class Break:
 	def __repr__(self) -> str:
 		return 'Break()'
 	
-	def isTainted():
+	def isTainted(pattern, variablesBuffer, bodyListStatements):
 		return False
 
 
@@ -48,7 +48,7 @@ class Function:
 	def __repr__(self) -> str:
 		return 'Function(%s, %s)' % (self.name, self.argsList)
 
-	def isTainted(self, pattern, variablesBuffer):
+	def isTainted(self, pattern, variablesBuffer, bodyListStatements):
 		#source(?) -> taint
 		if self.name in pattern["sources"]:
 			return True
@@ -57,7 +57,7 @@ class Function:
 		#print("Function Name: " , self.name)
 		#print("Arguments: " , self.argsList)
 		for argument in self.argsList:
-			isTaint = argument.isTainted(pattern, variablesBuffer)
+			isTaint = argument.isTainted(pattern, variablesBuffer, bodyListStatements)
 			if isTaint:
 				argumentsTainted.append(argument)
 		
@@ -86,9 +86,9 @@ class Expression:
 	def __repr__(self) -> str:
 		return 'Expression(%s, %s)' % (self.leftSide, self.rightSide)
 
-	def isTainted(self, pattern, variablesBuffer):
-		leftSideTainted = self.leftSide.isTainted(pattern, variablesBuffer)
-		rightRideTainted = self.rightSide.isTainted(pattern, variablesBuffer)
+	def isTainted(self, pattern, variablesBuffer, bodyListStatements):
+		leftSideTainted = self.leftSide.isTainted(pattern, variablesBuffer, bodyListStatements)
+		rightRideTainted = self.rightSide.isTainted(pattern, variablesBuffer, bodyListStatements)
 		if leftSideTainted or rightRideTainted:
 			return True
 		return False
@@ -105,9 +105,13 @@ class Body:
 			result += '\n' + str(statement)
 		return 'Body(%s)' % (result)
 
-	def isTainted(self):
-		for statement in self.statementsList:
-			statement.isTainted()
+	def isTainted(self, pattern, variablesBuffer, bodyStatementsList):
+		count = 0
+		for statement in bodyStatementsList:
+			count += 1
+			if(count >= len(bodyStatementsList)):	
+				statement.isTainted(pattern, variablesBuffer, [])
+			statement.isTainted(pattern, variablesBuffer, bodyStatementsList[count:])
 
 class Statement:
 	pass
@@ -120,9 +124,9 @@ class Assignment(Statement):
 	def __repr__(self) -> str:
 		return 'Assignment(%s, %s)' % (self.variable, self.expression)
 
-	def isTainted(self, pattern, variablesBuffer):
+	def isTainted(self, pattern, variablesBuffer, bodyListStatements):
 		#isVariableTainted = variablesBuffer[self.variable.name].isTainted(pattern, variablesBuffer)
-		isExpressionTainted = self.expression.isTainted(pattern, variablesBuffer)
+		isExpressionTainted = self.expression.isTainted(pattern, variablesBuffer, bodyListStatements)
 		
 		#print(self.expression)
 		#sink = tainted -> !!!ITERATE on path of expressionTainted AND FIND THE SOURCES
@@ -165,10 +169,41 @@ class If(Statement):
 	def __repr__(self) -> str:
 		return 'If(Condition: %s, ThenBlock: %s, ElseBlock: %s)' % (self.condition, self.thenBlock, self.elseBlock)
 
-	def isTainted(self):
-		self.condition.isTainted()
-		self.thenBlock.isTainted()
-		self.elseBlock.isTainted()
+	def isTainted(self, pattern, variablesBuffer, bodyStatementsList):
+		#check if need to evaluate condition (implicit flow == true)
+		#self.condition.isTainted()
+		elseVariablesBuffer = copy.deepcopy(variablesBuffer)
+		elsePattern = copy.deepcopy(pattern)
+		if len(bodyStatementsList) != 0:
+			bodyStatementsListElse = copy.deepcopy(bodyStatementsList)
+		else:
+			bodyStatementsListElse = []
+
+		ifVariablesBuffer = copy.deepcopy(variablesBuffer)
+		ifPattern = copy.deepcopy(pattern)
+		if len(bodyStatementsList) != 0:
+			bodyStatementsListIf = copy.deepcopy(bodyStatementsList)
+		else:
+			bodyStatementsListIf = []
+
+		self.elseBlock.isTainted(elsePattern, elseVariablesBuffer, bodyStatementsListElse)
+		# count = 0
+		# for statement in bodyStatementsList:
+		# 	count += 1
+		# 	if(count >= len(bodyStatementsList)):	
+		# 		statement.isTainted(elsePattern, elseVariablesBuffer, [])
+		# 	statement.isTainted(elsePattern, elseVariablesBuffer, bodyStatementsList[count:])
+		
+		self.thenBlock.isTainted(ifPattern, ifVariablesBuffer, bodyStatementsListIf)
+		# count = 0
+		# for statement in bodyStatementsList:
+		# 	count += 1
+		# 	if(count >= len(bodyStatementsList)):	
+		# 		statement.isTainted(ifPattern, ifVariablesBuffer, [])
+		# 	else:
+		# 		statement.isTainted(ifPattern, ifVariablesBuffer, bodyStatementsList[count:])
+
+
 
 class While(Statement):
 	def __init__(self, condition, block):
@@ -178,9 +213,9 @@ class While(Statement):
 	def __repr__(self) -> str:
 		return 'While(Condition: %s, block: %s)' % (self.condition, self.block)
 
-	def isTainted(self):
-		self.condition.isTainted()
-		self.block.isTainted()
+	def isTainted(self, pattern, variablesBuffer, bodyListStatements):
+		self.condition.isTainted(pattern, variablesBuffer, bodyListStatements)
+		self.block.isTainted(pattern, variablesBuffer, bodyListStatements)
 
 def createErrorObject(sinkName, sourceName, sanitizerFunctionsPassed):
 	return {"source": sourceName, "sink": sinkName, "sanitized flows": sanitizerFunctionsPassed}

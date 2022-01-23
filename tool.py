@@ -89,11 +89,13 @@ def createAst(astTreeInput, patternsInput):
     print(cleanErrorsOutput(VulnerabilitiesReport.errors))
 
 def taintTheTree(pattern,variableBuffer, body):
-    for statement in body.statementsList:
-        if isinstance(statement, utils.If) or isinstance(statement, utils.While):
-            print("TODO")
-        else:
-            statement.isTainted(pattern, variableBuffer)
+    body.isTainted(pattern, variableBuffer, body.statementsList)
+    # count = 0
+    # for statement in body.statementsList:
+    #     count += 1
+    #     if(count >= len(body.statementsList)):	
+    #         statement.isTainted(pattern, variableBuffer, [])
+    #     statement.isTainted(pattern, variableBuffer, body.statementsList[count:])
 
 
 if __name__ == "__main__":
