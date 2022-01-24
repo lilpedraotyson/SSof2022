@@ -17,7 +17,8 @@ class Variable:
 		self.name = name 
 		self.tainted = False
 		self.type = "none"
-		self.path = None
+		self.path = []
+		self.realPath = []
 		self.assigned = False
 		self.sanitized = []
 
@@ -72,6 +73,9 @@ class Function:
 							#ASSOCIATED and save in a global variable !!! TODO
 			#print("ERROU")
 			for argument in argumentsTainted:
+				for variableName in variablesBuffer.keys():
+					variablesBuffer[variableName].realPath = copy.deepcopy(variablesBuffer[variableName].path)
+				print("FINDING ERROR sink: {} expression: {}".format(self.name, argument))
 				iterateAndFindSourceOfError(pattern,variablesBuffer, self.name, argument, [])
 			return True
 			
@@ -152,28 +156,26 @@ class Assignment(Statement):
 		#? = untainted -> untainted
 
 		if variablesBuffer[self.variable.name].type == "sink" and isExpressionTainted:
-			#ITERATE on path of expressionTainted AND FIND THE SOURCES
-			#ASSOCIATED and save in a global variable #TODO
 			#print("ERROU")
+			for variableName in variablesBuffer.keys():
+				variablesBuffer[variableName].realPath = copy.deepcopy(variablesBuffer[variableName].path)
+			print("FINDING ERROR sink: {} expression: {}".format(self.variable.name, self.expression))
 			iterateAndFindSourceOfError(pattern,variablesBuffer, self.variable.name, self.expression, [])
-			newPath = updatePath(variablesBuffer, self.variable.name, variablesBuffer[self.variable.name].path, self.expression, pattern, [])
 			variablesBuffer[self.variable.name].tainted = True
-			variablesBuffer[self.variable.name].path = newPath
+			variablesBuffer[self.variable.name].path += [self.expression]
 			variablesBuffer[self.variable.name].assigned = True
 			return True
 		elif variablesBuffer[self.variable.name].type == "source":
 			#Only saves path if right side is tainted
 			if isExpressionTainted:
-				newPath = updatePath(variablesBuffer, self.variable.name, variablesBuffer[self.variable.name].path, self.expression, pattern, [])
 				variablesBuffer[self.variable.name].tainted = True
-				variablesBuffer[self.variable.name].path = newPath
+				variablesBuffer[self.variable.name].path += [self.expression]
 			
 			variablesBuffer[self.variable.name].assigned = True
 			return True
 		elif isExpressionTainted:
-			newPath = updatePath(variablesBuffer, self.variable.name, variablesBuffer[self.variable.name].path, self.expression, pattern, [])
 			variablesBuffer[self.variable.name].tainted = True
-			variablesBuffer[self.variable.name].path = newPath
+			variablesBuffer[self.variable.name].path += [self.expression]
 			variablesBuffer[self.variable.name].assigned = True
 			return True	
 		else:
@@ -252,19 +254,21 @@ def iterateAndFindSourceOfError(pattern, variablesBuffer, sinkName, expressionTo
 		#TODO CHECK variable.sanitized
 		target = variablesBuffer[expressionToIterate.name]
 		if target.type == "source":
-			if len(target.sanitized) == 0:
-				#Variable not erased
-				VulnerabilitiesReport.addError(pattern["vulnerability"], createErrorObject(sinkName, target.name, sanitizerFunctionsPassed))
-			else:
-				#Variable erased
-				VulnerabilitiesReport.addError(pattern["vulnerability"], createErrorObject(sinkName, target.name, target.sanitized))		
-		#if isinstance(target.path, Variable) and target.path.name == target.name:
-		#a = x(a)
-		#prevent a = f(a) loops
-		#a = c
-		#b(c)
-		#return
-		iterateAndFindSourceOfError(pattern,variablesBuffer, sinkName, target.path, sanitizerFunctionsPassed)
+			print("FOUND ERROR: sink:'{}' and source:'{}' sanitizers:'{}'".format(sinkName, target.name, sanitizerFunctionsPassed))
+			VulnerabilitiesReport.addError(pattern["vulnerability"], createErrorObject(sinkName, target.name, sanitizerFunctionsPassed))
+			# if len(target.sanitized) == 0:
+			# 	#Variable not erased
+			# 	VulnerabilitiesReport.addError(pattern["vulnerability"], createErrorObject(sinkName, target.name, sanitizerFunctionsPassed))
+			# else:
+			# 	#Variable erased
+			# 	VulnerabilitiesReport.addError(pattern["vulnerability"], createErrorObject(sinkName, target.name, target.sanitized))		
+
+		if len(target.realPath) == 0:
+			realPath = None
+		else:
+			realPath = target.realPath.pop()
+		iterateAndFindSourceOfError(pattern,variablesBuffer, sinkName, realPath, sanitizerFunctionsPassed)
+		#iterateAndFindSourceOfError(pattern,variablesBuffer, sinkName, target.path, sanitizerFunctionsPassed)
 
 	elif isinstance(expressionToIterate, Function):
 		#print("Entrei")
@@ -277,6 +281,8 @@ def iterateAndFindSourceOfError(pattern, variablesBuffer, sinkName, expressionTo
 				sanitizerFunctionsUpdate = [expressionToIterate.name]
 			#print("update:" , sanitizerFunctionsUpdate)
 			for argument in expressionToIterate.argsList:
+				for variableName in variablesBuffer.keys():
+					variablesBuffer[variableName].realPath = copy.deepcopy(variablesBuffer[variableName].path)
 				iterateAndFindSourceOfError(pattern, variablesBuffer, sinkName, argument, sanitizerFunctionsUpdate)
 			return
 
@@ -284,50 +290,67 @@ def iterateAndFindSourceOfError(pattern, variablesBuffer, sinkName, expressionTo
 			VulnerabilitiesReport.addError(pattern["vulnerability"], createErrorObject(sinkName, expressionToIterate.name, sanitizerFunctionsPassed))
 
 		for argument in expressionToIterate.argsList:
+			for variableName in variablesBuffer.keys():
+				variablesBuffer[variableName].realPath = copy.deepcopy(variablesBuffer[variableName].path)
 			iterateAndFindSourceOfError(pattern, variablesBuffer, sinkName, argument, sanitizerFunctionsPassed)
 	
 	elif isinstance(expressionToIterate, Expression):
+		for variableName in variablesBuffer.keys():
+				variablesBuffer[variableName].realPath = copy.deepcopy(variablesBuffer[variableName].path)
 		iterateAndFindSourceOfError(pattern, variablesBuffer, sinkName, expressionToIterate.leftSide, sanitizerFunctionsPassed)
+		for variableName in variablesBuffer.keys():
+				variablesBuffer[variableName].realPath = copy.deepcopy(variablesBuffer[variableName].path)
 		iterateAndFindSourceOfError(pattern, variablesBuffer, sinkName, expressionToIterate.rightSide, sanitizerFunctionsPassed)
 	
 	#else:
 		#print("target was '{}'".format(expressionToIterate))
 
-def updatePath(variablesBuffer, variableName, previousPath, pathCalculated, pattern, sanitizersPassed):
-	if isinstance(pathCalculated, Variable):
-		#print("Hello")
-		if pathCalculated.name == variableName:
-			if previousPath == None:
-				print("Entrei", sanitizersPassed)
-				variablesBuffer[variableName].sanitized += sanitizersPassed
-				return previousPath
-			else:
-				#print("Entrei", sanitizersPassed) Not needed!
-				#variablesBuffer[variableName].sanitized += sanitizersPassed
-				return previousPath
-		return pathCalculated
+# def updatePath(variablesBuffer, variableName, previousPath, pathCalculated, pattern, sanitizersPassed):
+# 	if isinstance(pathCalculated, Variable):
+# 		#print("Hello")
+# 		# if pathCalculated.name == variableName:
+# 		# 	if len(previousPath) == 0:
+# 		# 		print("Entrei", sanitizersPassed)
+# 		# 		variablesBuffer[variableName].sanitized += sanitizersPassed
+# 		# 		return previousPath
+# 		# 	else:
+# 		# 		#print("Entrei", sanitizersPassed) Not needed!
+# 		# 		#variablesBuffer[variableName].sanitized += sanitizersPassed
+# 		# 		return previousPath
+
+
+# 		# if pathCalculated.name == variableName:
+# 		# 	if len(previousPath) == 0:
+# 		# 		print("Entrei", sanitizersPassed)
+# 		# 		variablesBuffer[variableName].sanitized += sanitizersPassed
+
+# 		return pathCalculated
 		
-	elif isinstance(pathCalculated, Function):
-		arguments = []
-		if pathCalculated.name in pattern["sanitizers"]:
-			#print(pathCalculated.name)
-			sanitizersPassed = copy.deepcopy(sanitizersPassed)
-			sanitizersPassed += pathCalculated.name
-			#print(sanitizersPassed)
-		for argument in pathCalculated.argsList:
-			print(sanitizersPassed)
-			newArgument = updatePath(variablesBuffer, variableName, previousPath, argument, pattern, sanitizersPassed)
-			if newArgument != None:
-				arguments.append(newArgument)
-		return Function(pathCalculated.name, arguments)
+# 	elif isinstance(pathCalculated, Function):
+# 		arguments = []
+# 		if pathCalculated.name in pattern["sanitizers"]:
+# 			#print(pathCalculated.name)
+# 			sanitizersPassed = copy.deepcopy(sanitizersPassed)
+# 			sanitizersPassed += pathCalculated.name
+# 			#print(sanitizersPassed)
+# 		for argument in pathCalculated.argsList:
+# 			print(sanitizersPassed)
+# 			newArgument = updatePath(variablesBuffer, variableName, previousPath, argument, pattern, sanitizersPassed)
+# 			if newArgument != None:
+# 				arguments.append(newArgument)
+# 		return Function(pathCalculated.name, arguments)
 	
-	elif isinstance(pathCalculated, Expression):
-		leftSide = updatePath(variablesBuffer, variableName, previousPath, pathCalculated.leftSide, pattern, sanitizersPassed)
-		rightSide = updatePath(variablesBuffer, variableName, previousPath, pathCalculated.rightSide, pattern, sanitizersPassed)
-		if leftSide == None:
-			return rightSide
-		elif rightSide == None:
-			return leftSide
-		else:
-			return Expression(leftSide, rightSide)
+# 	elif isinstance(pathCalculated, Expression):
+# 		leftSide = updatePath(variablesBuffer, variableName, previousPath, pathCalculated.leftSide, pattern, sanitizersPassed)
+# 		rightSide = updatePath(variablesBuffer, variableName, previousPath, pathCalculated.rightSide, pattern, sanitizersPassed)
+# 		if leftSide == None:
+# 			return rightSide
+# 		elif rightSide == None:
+# 			return leftSide
+# 		else:
+# 			return Expression(leftSide, rightSide)
+	
+# 	elif isinstance(pathCalculated, Constant):
+# 		return []
+
 	
