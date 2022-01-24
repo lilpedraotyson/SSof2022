@@ -56,21 +56,32 @@ class Function:
 
 	def isTainted(self, pattern, variablesBuffer, bodyListStatements):
 		#source(?) -> taint
+		#source(sink) -> ERRO
+		functionIsSource = False
 		if self.name in pattern["sources"]:
-			return True
+			functionIsSource = True
 
 		argumentsTainted = []
-		#print("Function Name: " , self.name)
-		#print("Arguments: " , self.argsList)
 		for argument in self.argsList:
+			#ERROR TYPE source(sink)
+			if functionIsSource:
+				if isinstance(argument, Variable):
+					if variablesBuffer[argument.name].type == "sink":
+						print("ADDING SPECIAL ERROR sink: {} source: {}".format(argument.name, self.name))
+						VulnerabilitiesReport.addError(pattern["vulnerability"], createErrorObject(argument.name, self.name, []))
+				if isinstance(argument, Function):
+					if argument.name in pattern["sinks"]:
+						print("ADDING SPECIAL ERROR sink: {} source: {}".format(argument.name, self.name))
+						VulnerabilitiesReport.addError(pattern["vulnerability"], createErrorObject(argument.name, self.name, []))
+
 			isTaint = argument.isTainted(pattern, variablesBuffer, bodyListStatements)
 			if isTaint:
 				argumentsTainted.append(argument)
+		
+		if functionIsSource:
+			return True
 
 		if self.name in pattern["sinks"] and len(argumentsTainted) != 0:
-			#ERROR !!!ITERATE on path of expressionTainted AND FIND THE SOURCES
-							#ASSOCIATED and save in a global variable !!! TODO
-			#print("ERROU")
 			for argument in argumentsTainted:
 				print("FINDING ERROR sink: {} expression: {}".format(self.name, argument))
 				iterateAndFindSourceOfError(pattern,variablesBuffer, self.name, argument, [])
