@@ -19,6 +19,7 @@ class Variable:
 		self.type = "none"
 		self.path = None
 		self.assigned = False
+		self.sanitized = []
 
 	def __repr__(self) -> str:
 		return 'Variable(%s)' % (self.name)
@@ -109,11 +110,17 @@ class Body:
 	def isTainted(self, pattern, variablesBuffer, bodyStatementsList):
 		count = 0
 		#print("bodyStatementList: ", bodyStatementsList)
+		#pathCalculated = Function("f",[Variable("b"), Function("l",[Variable("a")]), Expression(Variable("a"), Variable("b"))])
+		#previousPath = None
+		#newPath = updatePath(variablesBuffer, "b", previousPath, pathCalculated)
+		#print("HELLO" , newPath)
 		for statement in bodyStatementsList:
+			print("Running:", statement)
 			count += 1
 			if(count >= len(bodyStatementsList)):	
 				statement.isTainted(pattern, variablesBuffer, [])
 			else:
+				#print(statement, count, len(bodyStatementsList))
 				statement.isTainted(pattern, variablesBuffer, bodyStatementsList[count:])
 
 class Statement:
@@ -128,6 +135,11 @@ class Assignment(Statement):
 		return 'Assignment(%s, %s)' % (self.variable, self.expression)
 
 	def isTainted(self, pattern, variablesBuffer, bodyListStatements):
+		expression = self.expression
+		if isinstance(expression, Variable):
+			if expression.name == self.variable.name:
+				return variablesBuffer[self.variable.name].isTainted(pattern, variablesBuffer)
+
 		#isVariableTainted = variablesBuffer[self.variable.name].isTainted(pattern, variablesBuffer)
 		isExpressionTainted = self.expression.isTainted(pattern, variablesBuffer, bodyListStatements)
 		
@@ -143,20 +155,25 @@ class Assignment(Statement):
 			#ITERATE on path of expressionTainted AND FIND THE SOURCES
 			#ASSOCIATED and save in a global variable #TODO
 			#print("ERROU")
-			variablesBuffer[self.variable.name].tainted = True
-			variablesBuffer[self.variable.name].path = self.expression
 			iterateAndFindSourceOfError(pattern,variablesBuffer, self.variable.name, self.expression, [])
+			newPath = updatePath(variablesBuffer, self.variable.name, variablesBuffer[self.variable.name].path, self.expression, pattern, [])
+			variablesBuffer[self.variable.name].tainted = True
+			variablesBuffer[self.variable.name].path = newPath
 			variablesBuffer[self.variable.name].assigned = True
 			return True
 		elif variablesBuffer[self.variable.name].type == "source":
 			#Only saves path if right side is tainted
 			if isExpressionTainted:
-				variablesBuffer[self.variable.name].path = self.expression
+				newPath = updatePath(variablesBuffer, self.variable.name, variablesBuffer[self.variable.name].path, self.expression, pattern, [])
+				variablesBuffer[self.variable.name].tainted = True
+				variablesBuffer[self.variable.name].path = newPath
+			
 			variablesBuffer[self.variable.name].assigned = True
 			return True
 		elif isExpressionTainted:
+			newPath = updatePath(variablesBuffer, self.variable.name, variablesBuffer[self.variable.name].path, self.expression, pattern, [])
 			variablesBuffer[self.variable.name].tainted = True
-			variablesBuffer[self.variable.name].path = self.expression
+			variablesBuffer[self.variable.name].path = newPath
 			variablesBuffer[self.variable.name].assigned = True
 			return True	
 		else:
@@ -176,55 +193,25 @@ class If(Statement):
 	def isTainted(self, pattern, variablesBuffer, bodyStatementsList):
 		#check if need to evaluate condition (implicit flow == true)
 		#self.condition.isTainted()
-		print("ENTER")
-		#print("variablesBuffer: ", variablesBuffer)
 		elseVariablesBuffer = copy.deepcopy(variablesBuffer)
-		#print("elseVariablesBuffer: ", elseVariablesBuffer["c"])
 		elsePattern = copy.deepcopy(pattern)
-		#print("elseVariablesBuffer: ", elseVariablesBuffer)
 		if len(bodyStatementsList) != 0:
 			bodyStatementsListElse = copy.deepcopy(bodyStatementsList)
 		else:
 			bodyStatementsListElse = []
-		
-		#print("Condition ", self.condition)
-		#print("Else body ", self.elseBlock.statementsList)
-		#print("bodyStatementsListElse: ", bodyStatementsListElse)
 		bodyStatementsElse = self.elseBlock.statementsList + bodyStatementsListElse
-		print("bodyStatementsElse: ", bodyStatementsElse)
 
 		ifVariablesBuffer = copy.deepcopy(variablesBuffer)
-		#print("ifVariablesBuffer: ", ifVariablesBuffer)
 		ifPattern = copy.deepcopy(pattern)
 		if len(bodyStatementsList) != 0:
 			bodyStatementsListIf = copy.deepcopy(bodyStatementsList)
 		else:
 			bodyStatementsListIf = []
 
-		#print("bodyStatementsListIf: ", bodyStatementsListIf)
 		bodyStatementsIf = self.thenBlock.statementsList + bodyStatementsListIf
-		print("bodyStatementsIf: ", bodyStatementsIf)
-
-		#print("then body ", self.thenBlock.statementsList)
-		#print("bodyStatementsListIf ", bodyStatementsListIf)
 
 		self.elseBlock.isTainted(elsePattern, elseVariablesBuffer, bodyStatementsElse)
-		# count = 0
-		# for statement in bodyStatementsList:
-		# 	count += 1
-		# 	if(count >= len(bodyStatementsList)):	
-		# 		statement.isTainted(elsePattern, elseVariablesBuffer, [])
-		# 	statement.isTainted(elsePattern, elseVariablesBuffer, bodyStatementsList[count:])
-		
-		#print("If: ", bodyStatementsif)
 		self.thenBlock.isTainted(ifPattern, ifVariablesBuffer, bodyStatementsIf)
-		# count = 0
-		# for statement in bodyStatementsList:
-		# 	count += 1
-		# 	if(count >= len(bodyStatementsList)):	
-		# 		statement.isTainted(ifPattern, ifVariablesBuffer, [])
-		# 	else:
-		# 		statement.isTainted(ifPattern, ifVariablesBuffer, bodyStatementsList[count:])
 
 class While(Statement):
 	def __init__(self, condition, block):
@@ -234,9 +221,26 @@ class While(Statement):
 	def __repr__(self) -> str:
 		return 'While(Condition: %s, block: %s)' % (self.condition, self.block)
 
-	def isTainted(self, pattern, variablesBuffer, bodyListStatements):
-		self.condition.isTainted(pattern, variablesBuffer, bodyListStatements)
-		self.block.isTainted(pattern, variablesBuffer, bodyListStatements)
+	def isTainted(self, pattern, variablesBuffer, bodyStatementsList):
+		#check if need to evaluate condition (implicit flow == true)
+		#self.condition.isTainted()
+		print("Entrei")
+		whileVariablesBuffer = copy.deepcopy(variablesBuffer)
+		whilePattern = copy.deepcopy(pattern)
+		print("BodyStatementsList: ",bodyStatementsList)
+		if len(bodyStatementsList) != 0:
+			bodyStatementsListWhileBlock = copy.deepcopy(bodyStatementsList)
+		else:
+			bodyStatementsListWhileBlock = []
+		bodyStatementsWhileBlock = self.block.statementsList + bodyStatementsListWhileBlock
+		print("BodyWhileBlock:" , bodyStatementsWhileBlock)
+
+		self.block.isTainted(whilePattern, whileVariablesBuffer, bodyStatementsWhileBlock)
+
+
+
+
+
 
 def createErrorObject(sinkName, sourceName, sanitizerFunctionsPassed):
 	return {"source": sourceName, "sink": sinkName, "sanitized flows": sanitizerFunctionsPassed}
@@ -245,9 +249,21 @@ def iterateAndFindSourceOfError(pattern, variablesBuffer, sinkName, expressionTo
 	print("expression: ", expressionToIterate)
 	if isinstance(expressionToIterate, Variable):
 		#print("Entrei")
+		#TODO CHECK variable.sanitized
 		target = variablesBuffer[expressionToIterate.name]
 		if target.type == "source":
-			VulnerabilitiesReport.addError(pattern["vulnerability"], createErrorObject(sinkName, target.name, sanitizerFunctionsPassed))
+			if len(target.sanitized) == 0:
+				#Variable not erased
+				VulnerabilitiesReport.addError(pattern["vulnerability"], createErrorObject(sinkName, target.name, sanitizerFunctionsPassed))
+			else:
+				#Variable erased
+				VulnerabilitiesReport.addError(pattern["vulnerability"], createErrorObject(sinkName, target.name, target.sanitized))		
+		#if isinstance(target.path, Variable) and target.path.name == target.name:
+		#a = x(a)
+		#prevent a = f(a) loops
+		#a = c
+		#b(c)
+		#return
 		iterateAndFindSourceOfError(pattern,variablesBuffer, sinkName, target.path, sanitizerFunctionsPassed)
 
 	elif isinstance(expressionToIterate, Function):
@@ -276,3 +292,42 @@ def iterateAndFindSourceOfError(pattern, variablesBuffer, sinkName, expressionTo
 	
 	#else:
 		#print("target was '{}'".format(expressionToIterate))
+
+def updatePath(variablesBuffer, variableName, previousPath, pathCalculated, pattern, sanitizersPassed):
+	if isinstance(pathCalculated, Variable):
+		#print("Hello")
+		if pathCalculated.name == variableName:
+			if previousPath == None:
+				print("Entrei", sanitizersPassed)
+				variablesBuffer[variableName].sanitized += sanitizersPassed
+				return previousPath
+			else:
+				#print("Entrei", sanitizersPassed) Not needed!
+				#variablesBuffer[variableName].sanitized += sanitizersPassed
+				return previousPath
+		return pathCalculated
+		
+	elif isinstance(pathCalculated, Function):
+		arguments = []
+		if pathCalculated.name in pattern["sanitizers"]:
+			#print(pathCalculated.name)
+			sanitizersPassed = copy.deepcopy(sanitizersPassed)
+			sanitizersPassed += pathCalculated.name
+			#print(sanitizersPassed)
+		for argument in pathCalculated.argsList:
+			print(sanitizersPassed)
+			newArgument = updatePath(variablesBuffer, variableName, previousPath, argument, pattern, sanitizersPassed)
+			if newArgument != None:
+				arguments.append(newArgument)
+		return Function(pathCalculated.name, arguments)
+	
+	elif isinstance(pathCalculated, Expression):
+		leftSide = updatePath(variablesBuffer, variableName, previousPath, pathCalculated.leftSide, pattern, sanitizersPassed)
+		rightSide = updatePath(variablesBuffer, variableName, previousPath, pathCalculated.rightSide, pattern, sanitizersPassed)
+		if leftSide == None:
+			return rightSide
+		elif rightSide == None:
+			return leftSide
+		else:
+			return Expression(leftSide, rightSide)
+	
