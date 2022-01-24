@@ -6,3 +6,8 @@ while (e == "") :
 g = h(a)
 
 # tip: sources, sanitizers and sinks can appear inside loops
+
+name: a
+value = b('nis')
+
+z = a + a
