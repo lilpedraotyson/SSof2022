@@ -1,4 +1,3 @@
-from ast import arguments
 from vulnerabilitiesReport import VulnerabilitiesReport
 import copy
 
@@ -20,6 +19,7 @@ class Variable:
 		self.type = "none"
 		self.assigned = False
 		self.errors = {}
+		self.variablesThatNotTaint = []
 
 	def __repr__(self) -> str:
 		return 'Variable(%s)' % (self.name)
@@ -33,6 +33,11 @@ class Variable:
 			variablesBuffer[self.name].tainted = True
 			variablesBuffer[self.name].type = "source"
 			return True
+		
+		if pattern["vulnerability"] in variablesBuffer[self.name].errors.keys():
+			if len(variablesBuffer[self.name].errors[pattern["vulnerability"]]) != 0:
+				variablesBuffer[self.name].tainted = True
+				return True
 
 		return variablesBuffer[self.name].tainted
 
@@ -121,18 +126,12 @@ class Body:
 
 	def isTainted(self, pattern, variablesBuffer, bodyStatementsList):
 		count = 0
-		#print("bodyStatementList: ", bodyStatementsList)
-		#pathCalculated = Function("f",[Variable("b"), Function("l",[Variable("a")]), Expression(Variable("a"), Variable("b"))])
-		#previousPath = None
-		#newPath = updatePath(variablesBuffer, "b", previousPath, pathCalculated)
-		#print("HELLO" , newPath)
 		for statement in bodyStatementsList:
 			print("Running:", statement)
 			count += 1
 			if(count >= len(bodyStatementsList)):	
 				statement.isTainted(pattern, variablesBuffer, [])
 			else:
-				#print(statement, count, len(bodyStatementsList))
 				statement.isTainted(pattern, variablesBuffer, bodyStatementsList[count:])
 			if isinstance(statement, If):
 				break
@@ -157,18 +156,29 @@ class Assignment(Statement):
 		#isVariableTainted = variablesBuffer[self.variable.name].isTainted(pattern, variablesBuffer)
 		isExpressionTainted = self.expression.isTainted(pattern, variablesBuffer, bodyListStatements)
 		
-
+		#New assignment, so the previous errors no longer exist, just the new ones that will be calculated
+		#BUT if for instance c = c + 1 we need to preserve c errors
+		if checkIfVariableIsInExpression(self.variable.name, self.expression) != None: 
+			variablesBuffer[self.variable.name].errors = {}
 		if isExpressionTainted:
 			checkErrors(pattern, variablesBuffer, self.variable.name, self.expression, [])
-		print("Variable: {} -> errors: {}".format(self.variable.name, variablesBuffer[self.variable.name].errors))
-		#print(self.expression)
+			print("Variable: {} -> errors: {}".format(self.variable.name, variablesBuffer[self.variable.name].errors))
+			print("Entering on updateErrorsOnRelatedVariables")
+			updateErrorsOnRelatedVariables(pattern, variablesBuffer, self.variable.name)
+		else:
+			print("Expression NOT TAINTED")
+			print("Variable: {} -> errors: {}".format(self.variable.name, variablesBuffer[self.variable.name].errors))
+		
+		#New assignment new variables
+		variablesBuffer[self.variable.name].variablesThatNotTaint = []
+		populateVariablesThatNotTaint(pattern, variablesBuffer,self.variable.name, self.expression, []) #Body List Statements not needed
+		print("Variable: {} -> variablesThatNotTaint: {}".format(self.variable.name, variablesBuffer[self.variable.name].variablesThatNotTaint))
 		#sink = tainted -> !!!ITERATE on path of expressionTainted AND FIND THE SOURCES
 							#ASSOCIATED and save in a global variable !!! TODO
 		#source = ? -> tainted
 		#tainted = untainted -> untainted ?????? -> CHECK with someone later
 		#? = tainted -> tainted
 		#? = untainted -> untainted
-
 		if variablesBuffer[self.variable.name].type == "sink" and isExpressionTainted:
 			#print("ERROU")
 			print("FINDING ERROR sink: {} expression: {}".format(self.variable.name, self.expression))
@@ -238,7 +248,7 @@ class While(Statement):
 	def isTainted(self, pattern, variablesBuffer, bodyStatementsList):
 		#check if need to evaluate condition (implicit flow == true)
 		#self.condition.isTainted()
-		print("Entrei")
+		#print("Entrei")
 		whileVariablesBuffer = copy.deepcopy(variablesBuffer)
 		whilePattern = copy.deepcopy(pattern)
 		#print("BodyStatementsList: ",bodyStatementsList)
@@ -297,17 +307,30 @@ def checkErrors(pattern, variablesBuffer, variableName, expressionToIterate, san
 		
 		if target.tainted == True and target.name == variableName:
 			print("Updating sanitized paths from {} to variableAssigned: {}".format(target.name,variableName))
+			print("Previous errors on {} -> {}".format(target.name, target.errors))
 			vulnerabilityName = pattern["vulnerability"]
+			print(sanitizerFunctionsPassed)
+			#variable = target (in this case)
+			if vulnerabilityName not in target.errors.keys():
+				target.errors[vulnerabilityName] = []
 			for error in target.errors[vulnerabilityName]:
 				if len(sanitizerFunctionsPassed) != 0:
-					for sanitizer in error["sanitized flows"]:
-						if sanitizerFunctionsPassed != sanitizer:
-							sanitizer += sanitizerFunctionsPassed
+					print(error["sanitized flows"])
 					if len(error["sanitized flows"]) == 0:
 						error["sanitized flows"] += sanitizerFunctionsPassed
 						print(sanitizerFunctionsPassed)
+						continue
 
-			
+					if isinstance(error["sanitized flows"][0], list):
+						for sanitizer in error["sanitized flows"]:
+							if sanitizerFunctionsPassed != sanitizer:
+								print(sanitizer, sanitizerFunctionsPassed)
+								sanitizer += sanitizerFunctionsPassed
+					else:
+						if sanitizerFunctionsPassed != error["sanitized flows"]:
+							print(sanitizer, sanitizerFunctionsPassed)
+							sanitizer += sanitizerFunctionsPassed
+			print("New error on {} -> {}".format(target.name, variablesBuffer[variableName].errors))
 
 	elif isinstance(expressionToIterate, Function):
 		#print("Entrei")
@@ -396,24 +419,53 @@ def iterateAndFindSourceOfError(pattern, variablesBuffer, sinkName, expressionTo
 		#print("target was '{}'".format(expressionToIterate))
 
 
-def createVariableValue(variablesBuffer, newValue):
-	if isinstance(newValue, Variable):
-		return variablesBuffer[newValue.name].value
+def checkIfVariableIsInExpression(variableName, expressionToIterate):
+	if isinstance(expressionToIterate, Variable):
+		if expressionToIterate.name == variableName:
+			return True
 	
-	if isinstance(newValue, Function):
-		arguments = []
-		for argument in newValue.argsList:
-			value = createVariableValue(variablesBuffer, argument)
-			if value != None:
-				arguments.append(value)
-			else:
-				arguments.append(argument)
-		return Function(newValue.name, arguments)
+	if isinstance(expressionToIterate, Function):
+		for argument in expressionToIterate.argsList:
+			checkIfVariableIsInExpression(variableName, argument)
+
+	if isinstance(expressionToIterate, Expression):
+		checkIfVariableIsInExpression(variableName, expressionToIterate.leftSide)
+		checkIfVariableIsInExpression(variableName, expressionToIterate.rightSide)
+
+def updateErrorsOnRelatedVariables(pattern, variablesBuffer, variableNameWithNewErrors):
+	#print(variablesBuffer)
+	for variableName in variablesBuffer.keys():
+		if variableNameWithNewErrors in variablesBuffer[variableName].variablesThatNotTaint:
+			if pattern["vulnerability"] not in variablesBuffer[variableName].errors.keys():
+				variablesBuffer[variableName].errors[pattern["vulnerability"]] = []
+			copiedErrors = copy.deepcopy(variablesBuffer[variableNameWithNewErrors].errors[pattern["vulnerability"]])
+			print("copied Errors from {} to {}: {} ".format(variableNameWithNewErrors, variableName, copiedErrors))
+			variablesBuffer[variableName].errors[pattern["vulnerability"]] += copiedErrors 
+			if variablesBuffer[variableName].type == "sink" and len(copiedErrors) != 0:
+				for error in copiedErrors:
+					VulnerabilitiesReport.addError(pattern["vulnerability"],
+													createErrorObjectFromVariableError(variableName, error))
+			print("new Errors in {} -> {}".format(variableName,variablesBuffer[variableName].errors[pattern["vulnerability"]] ))
+
+		#else:
+			#return
+			#Update with new sanitizers -> How to know which error need to update
+			#for error in variablesBuffer[variableName].errors[pattern["vulnerability"]]:
+				#if error["source"] == variableNameWithNewErrors: WRONG variableNameWithNewErrors == VariableThatMadeThatError
+				#	error["sanitized flows"] = variablesBuffer[variableNameWithNewErrors].errors
+
+
+
+
+def populateVariablesThatNotTaint(pattern, variablesBuffer, targetVariableName, expressionToIterate, bodyListStatements):
+	if isinstance(expressionToIterate, Variable):
+		if not variablesBuffer[expressionToIterate.name].isTainted(pattern, variablesBuffer, bodyListStatements):
+			variablesBuffer[targetVariableName].variablesThatNotTaint.append(expressionToIterate.name)
 	
-	if isinstance(newValue, Expression):
-		leftSide = createVariableValue(variablesBuffer, newValue.leftSide)
-		rightSide = createVariableValue(variablesBuffer, newValue.rightSide)
-		return Expression(leftSide, rightSide)
-	
-	if isinstance(newValue, Constant):
-		return newValue	
+	if isinstance(expressionToIterate, Function):
+		for argument in expressionToIterate.argsList:
+			populateVariablesThatNotTaint(pattern, variablesBuffer, targetVariableName, argument, [])
+
+	if isinstance(expressionToIterate, Expression):
+		populateVariablesThatNotTaint(pattern, variablesBuffer, targetVariableName, expressionToIterate.leftSide, [])
+		populateVariablesThatNotTaint(pattern, variablesBuffer, targetVariableName, expressionToIterate.rightSide, [])
