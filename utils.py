@@ -134,6 +134,8 @@ class Body:
 			else:
 				#print(statement, count, len(bodyStatementsList))
 				statement.isTainted(pattern, variablesBuffer, bodyStatementsList[count:])
+			if isinstance(statement, If):
+				break
 
 class Statement:
 	pass
