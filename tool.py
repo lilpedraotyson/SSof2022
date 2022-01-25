@@ -80,6 +80,7 @@ def createAst(astTreeInput, patternsInput):
     print("-----EVALUATE----")
     initialVariableBuffer = VariablesBuffer.getBufferDeepCopy()
     for pattern in patterns:
+        print("CONSIDERING PATTERN ", pattern)
         variableBuffer = copy.deepcopy(initialVariableBuffer)
         setupVariablesTaintness(variableBuffer, pattern)
         taintTheTree(pattern, variableBuffer, body)

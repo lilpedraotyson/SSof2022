@@ -6,1006 +6,438 @@ Assignment(Variable(e), Function(f, [Variable(c)]))
 Assignment(Variable(a), Variable(e))))
 Assignment(Variable(g), Function(h, [Variable(a)])))
 -----EVALUATE----
+CONSIDERING PATTERN  {'vulnerability': 'A', 'sources': ['b'], 'sanitizers': ['d'], 'sinks': ['h'], 'implicit': 'no'}
 Running: Assignment(Variable(a), Function(b, [Constant(nis)]))
-[]
+expression on checkErrors:  Function(b, [Constant(nis)])
+FOUND ERROR: variableName:'a' and source:'b' sanitizers:'[]'
+expression on checkErrors:  Constant(nis)
+Variable: a -> errors: {'A': [{'source': 'b', 'sanitized flows': []}]}
 Running: While(Condition: Expression(Variable(e), [Constant()]), block: Body(
 Assignment(Variable(c), Function(d, [Variable(a)]))
 Assignment(Variable(e), Function(f, [Variable(c)]))
 Assignment(Variable(a), Variable(e))))
-Entrei
-BodyStatementsList:  [Assignment(Variable(g), Function(h, [Variable(a)]))]
-BodyWhileBlock: [Assignment(Variable(c), Function(d, [Variable(a)])), Assignment(Variable(e), Function(f, [Variable(c)])), Assignment(Variable(a), Variable(e)), Assignment(Variable(g), Function(h, [Variable(a)]))]
 Running: Assignment(Variable(c), Function(d, [Variable(a)]))
-['d']
+expression on checkErrors:  Function(d, [Variable(a)])
+FOUND SANITIZED FUNCTION d
+expression on checkErrors:  Variable(a)
+Copying errors from a to variableAssigned: c
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': ['d']}]
+Variable: c -> errors: {'A': [{'source': 'b', 'sanitized flows': ['d']}]}
 Running: Assignment(Variable(e), Function(f, [Variable(c)]))
-[]
+expression on checkErrors:  Function(f, [Variable(c)])
+expression on checkErrors:  Variable(c)
+Copying errors from c to variableAssigned: e
+hello2 []
+hello2 [{'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': ['d']}]
+Variable: e -> errors: {'A': [{'source': 'b', 'sanitized flows': ['d']}]}
 Running: Assignment(Variable(a), Variable(e))
+expression on checkErrors:  Variable(e)
+Copying errors from e to variableAssigned: a
+hello2 [{'source': 'b', 'sanitized flows': []}]
+hello2 [{'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}]
+Variable: a -> errors: {'A': [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}]}
+Running: Assignment(Variable(c), Function(d, [Variable(a)]))
+expression on checkErrors:  Function(d, [Variable(a)])
+FOUND SANITIZED FUNCTION d
+expression on checkErrors:  Variable(a)
+Copying errors from a to variableAssigned: c
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Variable: c -> errors: {'A': [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]}
+Running: Assignment(Variable(e), Function(f, [Variable(c)]))
+expression on checkErrors:  Function(f, [Variable(c)])
+expression on checkErrors:  Variable(c)
+Copying errors from c to variableAssigned: e
+hello2 [{'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Variable: e -> errors: {'A': [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]}
+Running: Assignment(Variable(a), Variable(e))
+expression on checkErrors:  Variable(e)
+Copying errors from e to variableAssigned: a
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Variable: a -> errors: {'A': [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]}
+Running: Assignment(Variable(c), Function(d, [Variable(a)]))
+expression on checkErrors:  Function(d, [Variable(a)])
+FOUND SANITIZED FUNCTION d
+expression on checkErrors:  Variable(a)
+Copying errors from a to variableAssigned: c
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Variable: c -> errors: {'A': [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]}
+Running: Assignment(Variable(e), Function(f, [Variable(c)]))
+expression on checkErrors:  Function(f, [Variable(c)])
+expression on checkErrors:  Variable(c)
+Copying errors from c to variableAssigned: e
+hello2 [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Variable: e -> errors: {'A': [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]}
+Running: Assignment(Variable(a), Variable(e))
+expression on checkErrors:  Variable(e)
+Copying errors from e to variableAssigned: a
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Variable: a -> errors: {'A': [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]}
 Running: Assignment(Variable(g), Function(h, [Variable(a)]))
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  Function(f, [Variable(c)])
-expression:  Variable(c)
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-expression:  Variable(e)
-expression:  
+FINDING ERROR sink: h expression: Variable(a)
+expression on iterate:  Variable(a)
+ADDING COPIED ERROR: sink:'h' and source:'b' sanitizers:'[]'
+ADDING COPIED ERROR: sink:'h' and source:'b' sanitizers:'['d']'
+ADDING COPIED ERROR: sink:'h' and source:'b' sanitizers:'['d']'
+ADDING COPIED ERROR: sink:'h' and source:'b' sanitizers:'['d']'
+ADDING COPIED ERROR: sink:'h' and source:'b' sanitizers:'['d']'
+ADDING COPIED ERROR: sink:'h' and source:'b' sanitizers:'['d']'
+ADDING COPIED ERROR: sink:'h' and source:'b' sanitizers:'['d']'
+ADDING COPIED ERROR: sink:'h' and source:'b' sanitizers:'['d']'
+ADDING COPIED ERROR: sink:'h' and source:'b' sanitizers:'['d']'
+ADDING COPIED ERROR: sink:'h' and source:'b' sanitizers:'['d']'
+ADDING COPIED ERROR: sink:'h' and source:'b' sanitizers:'['d']'
+ADDING COPIED ERROR: sink:'h' and source:'b' sanitizers:'['d']'
+ADDING COPIED ERROR: sink:'h' and source:'b' sanitizers:'['d']'
+ADDING COPIED ERROR: sink:'h' and source:'b' sanitizers:'['d']'
+ADDING COPIED ERROR: sink:'h' and source:'b' sanitizers:'['d']'
+ADDING COPIED ERROR: sink:'h' and source:'b' sanitizers:'['d']'
+ADDING COPIED ERROR: sink:'h' and source:'b' sanitizers:'['d']'
+ADDING COPIED ERROR: sink:'h' and source:'b' sanitizers:'['d']'
+ADDING COPIED ERROR: sink:'h' and source:'b' sanitizers:'['d']'
+expression on checkErrors:  Function(h, [Variable(a)])
+expression on checkErrors:  Variable(a)
+Copying errors from a to variableAssigned: g
+hello2 []
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': []}]
+hello2 [{'source': 'b', 'sanitized flows': []}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+hello2 [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]
+Variable: g -> errors: {'A': [{'source': 'b', 'sanitized flows': []}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}, {'source': 'b', 'sanitized flows': ['d']}]}
+Running: Assignment(Variable(g), Function(h, [Variable(a)]))
+FINDING ERROR sink: h expression: Variable(a)
+expression on iterate:  Variable(a)
+ADDING COPIED ERROR: sink:'h' and source:'b' sanitizers:'[]'
+expression on checkErrors:  Function(h, [Variable(a)])
+expression on checkErrors:  Variable(a)
+Copying errors from a to variableAssigned: g
+hello2 []
+hello2 [{'source': 'b', 'sanitized flows': []}]
+Updated Sanitizers passed:  [{'source': 'b', 'sanitized flows': []}]
+Variable: g -> errors: {'A': [{'source': 'b', 'sanitized flows': []}]}
+CONSIDERING PATTERN  {'vulnerability': 'B', 'sources': ['f'], 'sanitizers': ['t'], 'sinks': ['c'], 'implicit': 'no'}
+Running: Assignment(Variable(a), Function(b, [Constant(nis)]))
+Expression NOT TAINTED
+Variable: a -> errors: {}
+Running: While(Condition: Expression(Variable(e), [Constant()]), block: Body(
+Assignment(Variable(c), Function(d, [Variable(a)]))
+Assignment(Variable(e), Function(f, [Variable(c)]))
+Assignment(Variable(a), Variable(e))))
+Running: Assignment(Variable(c), Function(d, [Variable(a)]))
+Expression NOT TAINTED
+Variable: c -> errors: {}
+Running: Assignment(Variable(e), Function(f, [Variable(c)]))
+ADDING SPECIAL ERROR sink: c source: f
+expression on checkErrors:  Function(f, [Variable(c)])
+FOUND ERROR: variableName:'e' and source:'f' sanitizers:'[]'
+expression on checkErrors:  Variable(c)
+Variable: e -> errors: {'B': [{'source': 'f', 'sanitized flows': []}]}
+Running: Assignment(Variable(a), Variable(e))
+expression on checkErrors:  Variable(e)
+Copying errors from e to variableAssigned: a
+hello2 []
+hello2 [{'source': 'f', 'sanitized flows': []}]
+Updated Sanitizers passed:  [{'source': 'f', 'sanitized flows': []}]
+Variable: a -> errors: {'B': [{'source': 'f', 'sanitized flows': []}]}
+Running: Assignment(Variable(c), Function(d, [Variable(a)]))
+expression on checkErrors:  Function(d, [Variable(a)])
+expression on checkErrors:  Variable(a)
+Copying errors from a to variableAssigned: c
+hello2 []
+hello2 [{'source': 'f', 'sanitized flows': []}]
+Updated Sanitizers passed:  [{'source': 'f', 'sanitized flows': []}]
+Variable: c -> errors: {'B': [{'source': 'f', 'sanitized flows': []}]}
+FINDING ERROR sink: c expression: Function(d, [Variable(a)])
+expression on iterate:  Function(d, [Variable(a)])
+expression on iterate:  Variable(a)
+ADDING COPIED ERROR: sink:'c' and source:'f' sanitizers:'[]'
+Running: Assignment(Variable(e), Function(f, [Variable(c)]))
+ADDING SPECIAL ERROR sink: c source: f
+expression on checkErrors:  Function(f, [Variable(c)])
+FOUND ERROR: variableName:'e' and source:'f' sanitizers:'[]'
+expression on checkErrors:  Variable(c)
+Copying errors from c to variableAssigned: e
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}]
+Updated Sanitizers passed:  [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+Variable: e -> errors: {'B': [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]}
+Running: Assignment(Variable(a), Variable(e))
+expression on checkErrors:  Variable(e)
+Copying errors from e to variableAssigned: a
+hello2 [{'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+Updated Sanitizers passed:  [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+Updated Sanitizers passed:  [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+Updated Sanitizers passed:  [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+Variable: a -> errors: {'B': [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]}
+Running: Assignment(Variable(c), Function(d, [Variable(a)]))
+expression on checkErrors:  Function(d, [Variable(a)])
+expression on checkErrors:  Variable(a)
+Copying errors from a to variableAssigned: c
+hello2 [{'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+Updated Sanitizers passed:  [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+Updated Sanitizers passed:  [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+Updated Sanitizers passed:  [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+Updated Sanitizers passed:  [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+Variable: c -> errors: {'B': [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]}
+FINDING ERROR sink: c expression: Function(d, [Variable(a)])
+expression on iterate:  Function(d, [Variable(a)])
+expression on iterate:  Variable(a)
+ADDING COPIED ERROR: sink:'c' and source:'f' sanitizers:'[]'
+ADDING COPIED ERROR: sink:'c' and source:'f' sanitizers:'[]'
+ADDING COPIED ERROR: sink:'c' and source:'f' sanitizers:'[]'
+ADDING COPIED ERROR: sink:'c' and source:'f' sanitizers:'[]'
+Running: Assignment(Variable(e), Function(f, [Variable(c)]))
+ADDING SPECIAL ERROR sink: c source: f
+expression on checkErrors:  Function(f, [Variable(c)])
+FOUND ERROR: variableName:'e' and source:'f' sanitizers:'[]'
+expression on checkErrors:  Variable(c)
+Copying errors from c to variableAssigned: e
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+Updated Sanitizers passed:  [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+Updated Sanitizers passed:  [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+Updated Sanitizers passed:  [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+Updated Sanitizers passed:  [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+Updated Sanitizers passed:  [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+Variable: e -> errors: {'B': [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]}
+Running: Assignment(Variable(a), Variable(e))
+expression on checkErrors:  Variable(e)
+Copying errors from e to variableAssigned: a
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+Updated Sanitizers passed:  [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+Updated Sanitizers passed:  [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+Updated Sanitizers passed:  [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+Updated Sanitizers passed:  [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+Updated Sanitizers passed:  [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+Updated Sanitizers passed:  [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+Updated Sanitizers passed:  [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+Updated Sanitizers passed:  [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+Updated Sanitizers passed:  [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+Variable: a -> errors: {'B': [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]}
+Running: Assignment(Variable(g), Function(h, [Variable(a)]))
+expression on checkErrors:  Function(h, [Variable(a)])
+expression on checkErrors:  Variable(a)
+Copying errors from a to variableAssigned: g
+hello2 []
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+Updated Sanitizers passed:  [{'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+Updated Sanitizers passed:  [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+Updated Sanitizers passed:  [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+Updated Sanitizers passed:  [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+Updated Sanitizers passed:  [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+Updated Sanitizers passed:  [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+Updated Sanitizers passed:  [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+Updated Sanitizers passed:  [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+Updated Sanitizers passed:  [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+Updated Sanitizers passed:  [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+Updated Sanitizers passed:  [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+Updated Sanitizers passed:  [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+hello2 [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+Updated Sanitizers passed:  [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]
+Variable: g -> errors: {'B': [{'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}, {'source': 'f', 'sanitized flows': []}]}
+Running: Assignment(Variable(g), Function(h, [Variable(a)]))
+Expression NOT TAINTED
+Variable: g -> errors: {}
+[{'vulnerability': 'A_1', 'source': 'b', 'sink': 'h', 'unsanitized flows': 'yes', 'sanitized flows': [['d']]}, {'vulnerability': 'B_1', 'source': 'f', 'sink': 'c', 'unsanitized flows': 'yes', 'sanitized flows': []}]
