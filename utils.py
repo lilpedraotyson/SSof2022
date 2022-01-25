@@ -267,8 +267,8 @@ class While(Statement):
 def createErrorObject(sinkName, sourceName, sanitizerFunctionsPassed):
 	return {"source": sourceName, "sink": sinkName, "sanitized flows": sanitizerFunctionsPassed}
 
-def createVariableErrorObject(sourceName, sanitizerFunctionsPassed):
-	return {"source": sourceName, "sanitized flows": sanitizerFunctionsPassed}
+def createVariableErrorObject(taintedBy, sourceName, sanitizerFunctionsPassed):
+	return {"taintedBy": taintedBy ,"source": sourceName, "sanitized flows": sanitizerFunctionsPassed}
 
 def createErrorObjectFromVariableError(sinkName, variableErrorObject):
 	return {"source" : variableErrorObject["source"], "sink": sinkName,
@@ -283,7 +283,7 @@ def checkErrors(pattern, variablesBuffer, variableName, expressionToIterate, san
 			print("FOUND ERROR: variableAssigned:'{}' and source:'{}' sanitizers:'{}'".format(variableName, target.name, sanitizerFunctionsPassed))
 			if pattern["vulnerability"] not in variablesBuffer[variableName].errors.keys():
 				variablesBuffer[variableName].errors[pattern["vulnerability"]] = []
-			variablesBuffer[variableName].errors[pattern["vulnerability"]].append(createVariableErrorObject(target.name, sanitizerFunctionsPassed))
+			variablesBuffer[variableName].errors[pattern["vulnerability"]].append(createVariableErrorObject(target.name, target.name, sanitizerFunctionsPassed))
 		
 		if target.tainted == True and target.name != variableName:
 			print("Copying errors from {} to variableAssigned: {}".format(target.name,variableName))
@@ -293,19 +293,25 @@ def checkErrors(pattern, variablesBuffer, variableName, expressionToIterate, san
 			if vulnerabilityName not in variablesBuffer[variableName].errors.keys():
 				variablesBuffer[variableName].errors[vulnerabilityName] = []
 			for error in target.errors[vulnerabilityName]:
+				errorCopy = copy.deepcopy(error)
 				if len(sanitizerFunctionsPassed) != 0:
-					errorCopy = copy.deepcopy(error)
 					for sanitizer in errorCopy["sanitized flows"]:
 						sanitizer += sanitizerFunctionsPassed
 					if len(errorCopy["sanitized flows"]) == 0:
 						errorCopy["sanitized flows"] += sanitizerFunctionsPassed
 						print(sanitizerFunctionsPassed)
+					errorCopy["taintedBy"] = target.name #The error on variable name 
+														 #was tainted by the variable that he is copying the errors
 					variablesBuffer[variableName].errors[vulnerabilityName].append(errorCopy)
 					print("Updated Sanitizers: ",variablesBuffer[variableName].errors[vulnerabilityName])
 				else:
-					variablesBuffer[variableName].errors[vulnerabilityName].append(error)
+					errorCopy["taintedBy"] = target.name #The error on variable name 
+														 #was tainted by the variable that he is copying the errors
+					variablesBuffer[variableName].errors[vulnerabilityName].append(errorCopy)
 		
 		if target.tainted == True and target.name == variableName:
+			#Assign variable to itself for example a = a +1 or a = s(a),
+			#  in those cases the var 'a' will be tainted by themselfes, so the new error["taintedBy"] = 'a'
 			print("Updating sanitized paths from {} to variableAssigned: {}".format(target.name,variableName))
 			print("Previous errors on {} -> {}".format(target.name, target.errors))
 			vulnerabilityName = pattern["vulnerability"]
@@ -319,9 +325,8 @@ def checkErrors(pattern, variablesBuffer, variableName, expressionToIterate, san
 					if len(error["sanitized flows"]) == 0:
 						error["sanitized flows"] += sanitizerFunctionsPassed
 						print(sanitizerFunctionsPassed)
-						continue
 
-					if isinstance(error["sanitized flows"][0], list):
+					elif isinstance(error["sanitized flows"][0], list):
 						for sanitizer in error["sanitized flows"]:
 							if sanitizerFunctionsPassed != sanitizer:
 								print(sanitizer, sanitizerFunctionsPassed)
@@ -330,6 +335,7 @@ def checkErrors(pattern, variablesBuffer, variableName, expressionToIterate, san
 						if sanitizerFunctionsPassed != error["sanitized flows"]:
 							print(sanitizer, sanitizerFunctionsPassed)
 							sanitizer += sanitizerFunctionsPassed
+				error["taintedBy"] = variableName #Update the taintedBy
 			print("New error on {} -> {}".format(target.name, variablesBuffer[variableName].errors))
 
 	elif isinstance(expressionToIterate, Function):
@@ -351,7 +357,7 @@ def checkErrors(pattern, variablesBuffer, variableName, expressionToIterate, san
 			print("FOUND ERROR: variableName:'{}' and source:'{}' sanitizers:'{}'".format(variableName, expressionToIterate.name, sanitizerFunctionsPassed))
 			if pattern["vulnerability"] not in variablesBuffer[variableName].errors.keys():
 				variablesBuffer[variableName].errors[pattern["vulnerability"]] = []
-			variablesBuffer[variableName].errors[pattern["vulnerability"]].append(createVariableErrorObject(expressionToIterate.name, sanitizerFunctionsPassed))	
+			variablesBuffer[variableName].errors[pattern["vulnerability"]].append(createVariableErrorObject("FUNCTION", expressionToIterate.name, sanitizerFunctionsPassed))	
 			#VulnerabilitiesReport.addError(pattern["vulnerability"], createErrorObject(sinkName, expressionToIterate.name, sanitizerFunctionsPassed))
 
 		for argument in expressionToIterate.argsList:
@@ -440,6 +446,8 @@ def updateErrorsOnRelatedVariables(pattern, variablesBuffer, variableNameWithNew
 				variablesBuffer[variableName].errors[pattern["vulnerability"]] = []
 			copiedErrors = copy.deepcopy(variablesBuffer[variableNameWithNewErrors].errors[pattern["vulnerability"]])
 			print("copied Errors from {} to {}: {} ".format(variableNameWithNewErrors, variableName, copiedErrors))
+			for error in copiedErrors:
+				error["taintedBy"] = variableNameWithNewErrors
 			variablesBuffer[variableName].errors[pattern["vulnerability"]] += copiedErrors 
 			if variablesBuffer[variableName].type == "sink" and len(copiedErrors) != 0:
 				for error in copiedErrors:
