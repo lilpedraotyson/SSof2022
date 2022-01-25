@@ -139,15 +139,35 @@ def createAstTypeCompare(object):
     if leftSide["ast_type"] == "Name":
         leftResult = createAstTypeName(leftSide)
     
-    righResult = []
-    for comparator in comparators:
-        comparatorObject = None
+    righResult = None
+    if len(comparators) == 1:
+        comparator = comparators[0]
         if comparator["ast_type"] == "Constant":
-            comparatorObject = utils.Constant(comparator["value"])
+            righResult = utils.Constant(comparator["value"])
 
         if comparator["ast_type"] == "Name":
-            comparatorObject = createAstTypeName(comparator)
+            righResult = createAstTypeName(comparator)
+
+    else:
+        auxRightResult =  []
+        for comparator in comparators:
+            comparatorObject = None
+            if comparator["ast_type"] == "Constant":
+                comparatorObject = utils.Constant(comparator["value"])
+
+            if comparator["ast_type"] == "Name":
+                comparatorObject = createAstTypeName(comparator)
+            
+            auxRightResult.append(comparatorObject)
         
-        righResult.append(comparatorObject)
+        righResult = createExpressionRecursevily(auxRightResult)
 
     return utils.Expression(leftResult, righResult)
+
+
+def createExpressionRecursevily(variablesList):
+    if len(variablesList) == 1:
+        return variablesList.pop()
+    else:
+        return utils.Expression(variablesList.pop(0), createExpressionRecursevily(variablesList))
+    
