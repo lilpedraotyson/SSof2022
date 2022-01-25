@@ -163,16 +163,16 @@ class Assignment(Statement):
 		if isExpressionTainted:
 			checkErrors(pattern, variablesBuffer, self.variable.name, self.expression, [])
 			print("Variable: {} -> errors: {}".format(self.variable.name, variablesBuffer[self.variable.name].errors))
-			print("Entering on updateErrorsOnRelatedVariables")
-			updateErrorsOnRelatedVariables(pattern, variablesBuffer, self.variable.name)
+			#print("Entering on updateErrorsOnRelatedVariables")
+			#updateErrorsOnRelatedVariables(pattern, variablesBuffer, self.variable.name)
 		else:
 			print("Expression NOT TAINTED")
 			print("Variable: {} -> errors: {}".format(self.variable.name, variablesBuffer[self.variable.name].errors))
 		
 		#New assignment new variables
-		variablesBuffer[self.variable.name].variablesThatNotTaint = []
-		populateVariablesThatNotTaint(pattern, variablesBuffer,self.variable.name, self.expression, []) #Body List Statements not needed
-		print("Variable: {} -> variablesThatNotTaint: {}".format(self.variable.name, variablesBuffer[self.variable.name].variablesThatNotTaint))
+		#variablesBuffer[self.variable.name].variablesThatNotTaint = []
+		#populateVariablesThatNotTaint(pattern, variablesBuffer,self.variable.name, self.expression, []) #Body List Statements not needed
+		#print("Variable: {} -> variablesThatNotTaint: {}".format(self.variable.name, variablesBuffer[self.variable.name].variablesThatNotTaint))
 		#sink = tainted -> !!!ITERATE on path of expressionTainted AND FIND THE SOURCES
 							#ASSOCIATED and save in a global variable !!! TODO
 		#source = ? -> tainted
@@ -256,10 +256,11 @@ class While(Statement):
 			bodyStatementsListWhileBlock = copy.deepcopy(bodyStatementsList)
 		else:
 			bodyStatementsListWhileBlock = []
-		bodyStatementsWhileBlock = self.block.statementsList + bodyStatementsListWhileBlock
+		size = len(self.block.statementsList)
+		bodyStatementsWhileBlock = (size * self.block.statementsList) + bodyStatementsListWhileBlock
 		#print("BodyWhileBlock:" , bodyStatementsWhileBlock)
 
-		self.block.isTainted(whilePattern, whileVariablesBuffer, bodyStatementsWhileBlock + bodyStatementsWhileBlock)
+		self.block.isTainted(whilePattern, whileVariablesBuffer, bodyStatementsWhileBlock)
 
 
 
@@ -295,15 +296,25 @@ def checkErrors(pattern, variablesBuffer, variableName, expressionToIterate, san
 			for error in target.errors[vulnerabilityName]:
 				errorCopy = copy.deepcopy(error)
 				if len(sanitizerFunctionsPassed) != 0:
-					for sanitizer in errorCopy["sanitized flows"]:
-						sanitizer += sanitizerFunctionsPassed
 					if len(errorCopy["sanitized flows"]) == 0:
 						errorCopy["sanitized flows"] += sanitizerFunctionsPassed
-						print(sanitizerFunctionsPassed)
+
+					elif isinstance(errorCopy["sanitized flows"][0], list):
+						for sanitizer in errorCopy["sanitized flows"]:
+							if sanitizerFunctionsPassed != sanitizer:
+								print(sanitizer, sanitizerFunctionsPassed)
+								sanitizer += sanitizerFunctionsPassed
+					else:
+						if sanitizerFunctionsPassed != errorCopy["sanitized flows"]:
+							print(sanitizer, sanitizerFunctionsPassed)
+							sanitizer += sanitizerFunctionsPassed
 					variablesBuffer[variableName].errors[vulnerabilityName].append(errorCopy)
-					print("Updated Sanitizers: ",variablesBuffer[variableName].errors[vulnerabilityName])
+					print("Updated Sanitizers passed: ",variablesBuffer[variableName].errors[vulnerabilityName])
 				else:
+					print("hello2",variablesBuffer[variableName].errors[vulnerabilityName])
+					print("hello2",target.errors[vulnerabilityName])
 					variablesBuffer[variableName].errors[vulnerabilityName].append(errorCopy)
+					print("Updated Sanitizers passed: ",variablesBuffer[variableName].errors[vulnerabilityName])
 		
 		if target.tainted == True and target.name == variableName:
 			print("Updating sanitized paths from {} to variableAssigned: {}".format(target.name,variableName))
