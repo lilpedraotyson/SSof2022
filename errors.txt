@@ -1,82 +1,196 @@
 Body(
-If(Condition: Expression(Variable(c), [Constant(0)]), ThenBlock: Body(
-Assignment(Variable(a), Function(b, []))
-If(Condition: Expression(Variable(c), [Constant(3)]), ThenBlock: Body(
-Assignment(Variable(a), Function(f, [Variable(a)]))), ElseBlock: Body(
-Assignment(Variable(c), Function(d, [Variable(a)]))))), ElseBlock: Body())
-Function(e, [Variable(a), Variable(c)]))
+Assignment(Variable(a), Function(b, [Constant(nis)]))
+Assignment(Variable(c), Constant())
+Assignment(Variable(d), Constant())
+While(Condition: Expression(Variable(e), [Constant()]), block: Body(
+Assignment(Variable(c), Variable(d))
+If(Condition: Expression(Variable(x), [Constant(33)]), ThenBlock: Body(
+Assignment(Variable(d), Variable(a))), ElseBlock: Body())
+Assignment(Variable(a), Function(s, [Expression(Variable(a), Constant(1))]))))
+Assignment(Variable(q), Function(z, [Variable(c)])))
 -----EVALUATE----
-CONSIDERING PATTERN  {'vulnerability': 'A', 'sources': ['f'], 'sanitizers': ['t'], 'sinks': ['e'], 'implicit': 'no'}
-Running: If(Condition: Expression(Variable(c), [Constant(0)]), ThenBlock: Body(
-Assignment(Variable(a), Function(b, []))
-If(Condition: Expression(Variable(c), [Constant(3)]), ThenBlock: Body(
-Assignment(Variable(a), Function(f, [Variable(a)]))), ElseBlock: Body(
-Assignment(Variable(c), Function(d, [Variable(a)]))))), ElseBlock: Body())
-Running: Function(e, [Variable(a), Variable(c)])
-FINDING ERROR sink: e expression: Variable(a)
-expression:  None
-FINDING ERROR sink: e expression: Variable(c)
-expression:  None
-Running: Assignment(Variable(a), Function(b, []))
-Variable: a -> value: Function(b, [])
-Running: If(Condition: Expression(Variable(c), [Constant(3)]), ThenBlock: Body(
-Assignment(Variable(a), Function(f, [Variable(a)]))), ElseBlock: Body(
-Assignment(Variable(c), Function(d, [Variable(a)]))))
-Running: Assignment(Variable(c), Function(d, [Variable(a)]))
-Variable: c -> value: Function(d, [Function(b, [])])
-Running: Function(e, [Variable(a), Variable(c)])
-Running: Assignment(Variable(a), Function(f, [Variable(a)]))
-Variable: a -> value: Function(f, [Function(b, [])])
-Running: Function(e, [Variable(a), Variable(c)])
-FINDING ERROR sink: e expression: Variable(a)
-expression:  Function(f, [Function(b, [])])
-expression:  Function(b, [])
-FINDING ERROR sink: e expression: Variable(c)
-expression:  None
-Running: Function(e, [Variable(a), Variable(c)])
-FINDING ERROR sink: e expression: Variable(c)
-expression:  None
-Running: Function(e, [Variable(a), Variable(c)])
-FINDING ERROR sink: e expression: Variable(a)
-expression:  None
-FINDING ERROR sink: e expression: Variable(c)
-expression:  None
-CONSIDERING PATTERN  {'vulnerability': 'B', 'sources': ['d'], 'sanitizers': [], 'sinks': ['c', 'e'], 'implicit': 'no'}
-Running: If(Condition: Expression(Variable(c), [Constant(0)]), ThenBlock: Body(
-Assignment(Variable(a), Function(b, []))
-If(Condition: Expression(Variable(c), [Constant(3)]), ThenBlock: Body(
-Assignment(Variable(a), Function(f, [Variable(a)]))), ElseBlock: Body(
-Assignment(Variable(c), Function(d, [Variable(a)]))))), ElseBlock: Body())
-Running: Function(e, [Variable(a), Variable(c)])
-FINDING ERROR sink: e expression: Variable(a)
-expression:  None
-FINDING ERROR sink: e expression: Variable(c)
-expression:  None
-Running: Assignment(Variable(a), Function(b, []))
-Variable: a -> value: Function(b, [])
-Running: If(Condition: Expression(Variable(c), [Constant(3)]), ThenBlock: Body(
-Assignment(Variable(a), Function(f, [Variable(a)]))), ElseBlock: Body(
-Assignment(Variable(c), Function(d, [Variable(a)]))))
-Running: Assignment(Variable(c), Function(d, [Variable(a)]))
-Variable: c -> value: Function(d, [Function(b, [])])
-FINDING ERROR sink: c expression: Function(d, [Variable(a)])
-expression:  Function(d, [Variable(a)])
-expression:  Variable(a)
-Running: Function(e, [Variable(a), Variable(c)])
-FINDING ERROR sink: e expression: Variable(c)
-expression:  Function(d, [Function(b, [])])
-expression:  Function(b, [])
-Running: Assignment(Variable(a), Function(f, [Variable(a)]))
-Variable: a -> value: Function(f, [Function(b, [])])
-Running: Function(e, [Variable(a), Variable(c)])
-FINDING ERROR sink: e expression: Variable(c)
-expression:  None
-Running: Function(e, [Variable(a), Variable(c)])
-FINDING ERROR sink: e expression: Variable(c)
-expression:  None
-Running: Function(e, [Variable(a), Variable(c)])
-FINDING ERROR sink: e expression: Variable(a)
-expression:  None
-FINDING ERROR sink: e expression: Variable(c)
-expression:  None
-[{'vulnerability': 'A_1', 'source': 'f', 'sink': 'e', 'unsanitized flows': 'yes', 'sanitized flows': []}, {'vulnerability': 'B_1', 'source': 'd', 'sink': 'c', 'unsanitized flows': 'yes', 'sanitized flows': []}, {'vulnerability': 'B_2', 'source': 'd', 'sink': 'e', 'unsanitized flows': 'yes', 'sanitized flows': []}]
+CONSIDERING PATTERN  {'vulnerability': 'A', 'sources': ['b'], 'sanitizers': ['s'], 'sinks': ['q'], 'implicit': 'no'}
+Running: Assignment(Variable(a), Function(b, [Constant(nis)]))
+expression on checkErrors:  Function(b, [Constant(nis)])
+FOUND ERROR: variableName:'a' and source:'b' sanitizers:'[]'
+expression on checkErrors:  Constant(nis)
+Variable: a -> errors: {'A': [{'source': 'b', 'sanitized flows': []}]}
+Entering on updateErrorsOnRelatedVariables
+Variable: a -> variablesThatNotTaint: []
+Running: Assignment(Variable(c), Constant())
+Expression NOT TAINTED
+Variable: c -> errors: {}
+Variable: c -> variablesThatNotTaint: []
+Running: Assignment(Variable(d), Constant())
+Expression NOT TAINTED
+Variable: d -> errors: {}
+Variable: d -> variablesThatNotTaint: []
+Running: While(Condition: Expression(Variable(e), [Constant()]), block: Body(
+Assignment(Variable(c), Variable(d))
+If(Condition: Expression(Variable(x), [Constant(33)]), ThenBlock: Body(
+Assignment(Variable(d), Variable(a))), ElseBlock: Body())
+Assignment(Variable(a), Function(s, [Expression(Variable(a), Constant(1))]))))
+Running: Assignment(Variable(c), Variable(d))
+Expression NOT TAINTED
+Variable: c -> errors: {}
+Variable: c -> variablesThatNotTaint: ['d']
+Running: If(Condition: Expression(Variable(x), [Constant(33)]), ThenBlock: Body(
+Assignment(Variable(d), Variable(a))), ElseBlock: Body())
+Running: Assignment(Variable(a), Function(s, [Expression(Variable(a), Constant(1))]))
+expression on checkErrors:  Function(s, [Expression(Variable(a), Constant(1))])
+FOUND SANITIZED FUNCTION s
+expression on checkErrors:  Expression(Variable(a), Constant(1))
+expression on checkErrors:  Variable(a)
+Updating sanitized paths from a to variableAssigned: a
+Previous errors on a -> {'A': [{'source': 'b', 'sanitized flows': []}]}
+['s']
+New error on a -> {'A': [{'source': 'b', 'sanitized flows': ['s']}]}
+expression on checkErrors:  Constant(1)
+Variable: a -> errors: {'A': [{'source': 'b', 'sanitized flows': ['s']}]}
+Entering on updateErrorsOnRelatedVariables
+Variable: a -> variablesThatNotTaint: []
+Running: Assignment(Variable(q), Function(z, [Variable(c)]))
+Expression NOT TAINTED
+Variable: q -> errors: {}
+Variable: q -> variablesThatNotTaint: ['c']
+Running: Assignment(Variable(d), Variable(a))
+expression on checkErrors:  Variable(a)
+Copying errors from a to variableAssigned: d
+Variable: d -> errors: {'A': [{'source': 'b', 'sanitized flows': []}]}
+Entering on updateErrorsOnRelatedVariables
+copied Errors from d to c: [{'source': 'b', 'sanitized flows': []}] 
+new Errors in c -> [{'source': 'b', 'sanitized flows': []}]
+Variable: d -> variablesThatNotTaint: []
+Running: Assignment(Variable(a), Function(s, [Expression(Variable(a), Constant(1))]))
+expression on checkErrors:  Function(s, [Expression(Variable(a), Constant(1))])
+FOUND SANITIZED FUNCTION s
+expression on checkErrors:  Expression(Variable(a), Constant(1))
+expression on checkErrors:  Variable(a)
+Updating sanitized paths from a to variableAssigned: a
+Previous errors on a -> {'A': [{'source': 'b', 'sanitized flows': []}]}
+['s']
+New error on a -> {'A': [{'source': 'b', 'sanitized flows': ['s']}]}
+expression on checkErrors:  Constant(1)
+Variable: a -> errors: {'A': [{'source': 'b', 'sanitized flows': ['s']}]}
+Entering on updateErrorsOnRelatedVariables
+Variable: a -> variablesThatNotTaint: []
+Running: Assignment(Variable(q), Function(z, [Variable(c)]))
+expression on checkErrors:  Function(z, [Variable(c)])
+expression on checkErrors:  Variable(c)
+Copying errors from c to variableAssigned: q
+Variable: q -> errors: {'A': [{'source': 'b', 'sanitized flows': []}]}
+Entering on updateErrorsOnRelatedVariables
+Variable: q -> variablesThatNotTaint: []
+FINDING ERROR sink: q expression: Function(z, [Variable(c)])
+expression on iterate:  Function(z, [Variable(c)])
+expression on iterate:  Variable(c)
+ADDING COPIED ERROR: sink:'q' and source:'b' sanitizers:'[]'
+Running: Assignment(Variable(a), Function(s, [Expression(Variable(a), Constant(1))]))
+expression on checkErrors:  Function(s, [Expression(Variable(a), Constant(1))])
+FOUND SANITIZED FUNCTION s
+expression on checkErrors:  Expression(Variable(a), Constant(1))
+expression on checkErrors:  Variable(a)
+Updating sanitized paths from a to variableAssigned: a
+Previous errors on a -> {'A': [{'source': 'b', 'sanitized flows': []}]}
+['s']
+New error on a -> {'A': [{'source': 'b', 'sanitized flows': ['s']}]}
+expression on checkErrors:  Constant(1)
+Variable: a -> errors: {'A': [{'source': 'b', 'sanitized flows': ['s']}]}
+Entering on updateErrorsOnRelatedVariables
+Variable: a -> variablesThatNotTaint: []
+Running: Assignment(Variable(q), Function(z, [Variable(c)]))
+Expression NOT TAINTED
+Variable: q -> errors: {}
+Variable: q -> variablesThatNotTaint: ['c']
+Running: Assignment(Variable(q), Function(z, [Variable(c)]))
+Expression NOT TAINTED
+Variable: q -> errors: {}
+Variable: q -> variablesThatNotTaint: ['c']
+CONSIDERING PATTERN  {'vulnerability': 'B', 'sources': ['b'], 'sanitizers': [], 'sinks': ['c'], 'implicit': 'no'}
+Running: Assignment(Variable(a), Function(b, [Constant(nis)]))
+expression on checkErrors:  Function(b, [Constant(nis)])
+FOUND ERROR: variableName:'a' and source:'b' sanitizers:'[]'
+expression on checkErrors:  Constant(nis)
+Variable: a -> errors: {'B': [{'source': 'b', 'sanitized flows': []}]}
+Entering on updateErrorsOnRelatedVariables
+Variable: a -> variablesThatNotTaint: []
+Running: Assignment(Variable(c), Constant())
+Expression NOT TAINTED
+Variable: c -> errors: {}
+Variable: c -> variablesThatNotTaint: []
+Running: Assignment(Variable(d), Constant())
+Expression NOT TAINTED
+Variable: d -> errors: {}
+Variable: d -> variablesThatNotTaint: []
+Running: While(Condition: Expression(Variable(e), [Constant()]), block: Body(
+Assignment(Variable(c), Variable(d))
+If(Condition: Expression(Variable(x), [Constant(33)]), ThenBlock: Body(
+Assignment(Variable(d), Variable(a))), ElseBlock: Body())
+Assignment(Variable(a), Function(s, [Expression(Variable(a), Constant(1))]))))
+Running: Assignment(Variable(c), Variable(d))
+Expression NOT TAINTED
+Variable: c -> errors: {}
+Variable: c -> variablesThatNotTaint: ['d']
+Running: If(Condition: Expression(Variable(x), [Constant(33)]), ThenBlock: Body(
+Assignment(Variable(d), Variable(a))), ElseBlock: Body())
+Running: Assignment(Variable(a), Function(s, [Expression(Variable(a), Constant(1))]))
+expression on checkErrors:  Function(s, [Expression(Variable(a), Constant(1))])
+expression on checkErrors:  Expression(Variable(a), Constant(1))
+expression on checkErrors:  Variable(a)
+Updating sanitized paths from a to variableAssigned: a
+Previous errors on a -> {'B': [{'source': 'b', 'sanitized flows': []}]}
+New error on a -> {'B': [{'source': 'b', 'sanitized flows': []}]}
+expression on checkErrors:  Constant(1)
+Variable: a -> errors: {'B': [{'source': 'b', 'sanitized flows': []}]}
+Entering on updateErrorsOnRelatedVariables
+Variable: a -> variablesThatNotTaint: []
+Running: Assignment(Variable(q), Function(z, [Variable(c)]))
+Expression NOT TAINTED
+Variable: q -> errors: {}
+Variable: q -> variablesThatNotTaint: ['c']
+Running: Assignment(Variable(d), Variable(a))
+expression on checkErrors:  Variable(a)
+Copying errors from a to variableAssigned: d
+Variable: d -> errors: {'B': [{'source': 'b', 'sanitized flows': []}]}
+Entering on updateErrorsOnRelatedVariables
+copied Errors from d to c: [{'source': 'b', 'sanitized flows': []}] 
+new Errors in c -> [{'source': 'b', 'sanitized flows': []}]
+Variable: d -> variablesThatNotTaint: []
+Running: Assignment(Variable(a), Function(s, [Expression(Variable(a), Constant(1))]))
+expression on checkErrors:  Function(s, [Expression(Variable(a), Constant(1))])
+expression on checkErrors:  Expression(Variable(a), Constant(1))
+expression on checkErrors:  Variable(a)
+Updating sanitized paths from a to variableAssigned: a
+Previous errors on a -> {'B': [{'source': 'b', 'sanitized flows': []}]}
+New error on a -> {'B': [{'source': 'b', 'sanitized flows': []}]}
+expression on checkErrors:  Constant(1)
+Variable: a -> errors: {'B': [{'source': 'b', 'sanitized flows': []}]}
+Entering on updateErrorsOnRelatedVariables
+Variable: a -> variablesThatNotTaint: []
+Running: Assignment(Variable(q), Function(z, [Variable(c)]))
+expression on checkErrors:  Function(z, [Variable(c)])
+expression on checkErrors:  Variable(c)
+Copying errors from c to variableAssigned: q
+Variable: q -> errors: {'B': [{'source': 'b', 'sanitized flows': []}]}
+Entering on updateErrorsOnRelatedVariables
+Variable: q -> variablesThatNotTaint: []
+Running: Assignment(Variable(a), Function(s, [Expression(Variable(a), Constant(1))]))
+expression on checkErrors:  Function(s, [Expression(Variable(a), Constant(1))])
+expression on checkErrors:  Expression(Variable(a), Constant(1))
+expression on checkErrors:  Variable(a)
+Updating sanitized paths from a to variableAssigned: a
+Previous errors on a -> {'B': [{'source': 'b', 'sanitized flows': []}]}
+New error on a -> {'B': [{'source': 'b', 'sanitized flows': []}]}
+expression on checkErrors:  Constant(1)
+Variable: a -> errors: {'B': [{'source': 'b', 'sanitized flows': []}]}
+Entering on updateErrorsOnRelatedVariables
+Variable: a -> variablesThatNotTaint: []
+Running: Assignment(Variable(q), Function(z, [Variable(c)]))
+Expression NOT TAINTED
+Variable: q -> errors: {}
+Variable: q -> variablesThatNotTaint: ['c']
+Running: Assignment(Variable(q), Function(z, [Variable(c)]))
+Expression NOT TAINTED
+Variable: q -> errors: {}
+Variable: q -> variablesThatNotTaint: ['c']
+[{'vulnerability': 'A_1', 'source': 'b', 'sink': 'q', 'unsanitized flows': 'yes', 'sanitized flows': []}, {'vulnerability': 'B_1', 'source': 'b', 'sink': 'c', 'unsanitized flows': 'yes', 'sanitized flows': []}]
