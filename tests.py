@@ -1,8 +1,5 @@
-a=b(boo)
-k=0
-if (c == a == b == d) :
+a = 1
+while (a) :
    d="xpto1"
-else :
-   d="xpto2"
-e(d,"koneksi")
+z = d
 # tip: sources, sanitizers and sinks can appear inside loops

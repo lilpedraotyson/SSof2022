@@ -270,9 +270,9 @@ class While(Statement):
 				for expression in self.block.statementsList:
 					propagateErrorsOnBodyStatements(pattern, variablesBuffer, expression, errors)
 
-		#print("Entrei")
 		whileVariablesBuffer = copy.deepcopy(variablesBuffer)
 		whilePattern = copy.deepcopy(pattern)
+		#print("Entrei")
 		#print("BodyStatementsList: ",bodyStatementsList)
 		if len(bodyStatementsList) != 0:
 			bodyStatementsListWhileBlock = copy.deepcopy(bodyStatementsList)

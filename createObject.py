@@ -73,9 +73,7 @@ def createWhileStatementObject(bodyObject, orElseObject, testObject):
 
     block = createBodyObject(bodyObject)
     if orElseObject != []:
-        print("OH YEAH!", orElseObject)
         elseBlock = createBodyObject(orElseObject)
-        print(elseBlock)
     
     return utils.While(condition,block)
 
