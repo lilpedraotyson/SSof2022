@@ -1,4 +1,5 @@
 import sys, json, createObject, copy, utils
+from unittest import result
 from variablesBuffer import VariablesBuffer
 from vulnerabilitiesReport import VulnerabilitiesReport
 #import ast
@@ -85,20 +86,20 @@ def createAst(astTreeInput, patternsInput):
         setupVariablesTaintness(variableBuffer, pattern)
         taintTheTree(pattern, variableBuffer, body)
     
-    print(cleanErrorsOutput(VulnerabilitiesReport.errors))
+    result = cleanErrorsOutput(VulnerabilitiesReport.errors)
+    print(result)
+    return result
 
 def taintTheTree(pattern,variableBuffer, body):
     body.isTainted(pattern, variableBuffer, body.statementsList)
-    # count = 0
-    # for statement in body.statementsList:
-    #     count += 1
-    #     if(count >= len(body.statementsList)):	
-    #         statement.isTainted(pattern, variableBuffer, [])
-    #     statement.isTainted(pattern, variableBuffer, body.statementsList[count:])
 
 
 if __name__ == "__main__":
     astTree = open(sys.argv[1], "r")
     patterns = open(sys.argv[2], "r")
+    analyzeFileName = sys.argv[1].split(".")[0]
+    result = createAst(astTree.read(),patterns.read())
 
-    createAst(astTree.read(),patterns.read())
+    outputFile = open(analyzeFileName + ".output.json", "w")
+    outputFile.write(json.dumps(result))
+

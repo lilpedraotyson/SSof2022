@@ -1,0 +1,1 @@
+[{"vulnerability": "A_1", "source": "a", "sink": "d", "unsanitized flows": "yes", "sanitized flows": []}, {"vulnerability": "A_2", "source": "b", "sink": "f", "unsanitized flows": "yes", "sanitized flows": []}]
