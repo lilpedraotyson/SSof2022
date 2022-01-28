@@ -74,17 +74,17 @@ def createAst(astTreeInput, patternsInput):
     astInput = json.loads(astTreeInput)
     astBody = astInput["body"]
     body = createObject.createBodyObject(astBody)
-    print(body)
-    print("-----EVALUATE----")
+    print("-------Structure Obtained-------\n",body)
+    print("-----EVALUATING----")
     initialVariableBuffer = VariablesBuffer.getBufferDeepCopy()
     for pattern in patterns:
-        print("CONSIDERING PATTERN ", pattern)
+        print("CONSIDERING PATTERN: ", pattern)
         variableBuffer = copy.deepcopy(initialVariableBuffer)
         setupVariablesTaintness(variableBuffer, pattern)
         taintTheTree(pattern, variableBuffer, body)
     
     result = cleanErrorsOutput(VulnerabilitiesReport.errors)
-    print(result)
+    print("Result: ",result)
     return result
 
 def taintTheTree(pattern,variableBuffer, body):
@@ -94,7 +94,7 @@ def taintTheTree(pattern,variableBuffer, body):
 if __name__ == "__main__":
     astTree = open(sys.argv[1], "r")
     patterns = open(sys.argv[2], "r")
-    analyzeFileName = sys.argv[1].split(".")[0]
+    analyzeFileName = sys.argv[1].rsplit(".", 1)[0]
     result = createAst(astTree.read(),patterns.read())
 
     outputFile = open(analyzeFileName + ".output.json", "w")

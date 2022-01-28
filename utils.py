@@ -72,11 +72,11 @@ class Function:
 			if functionIsSource:
 				if isinstance(argument, Variable):
 					if variablesBuffer[argument.name].type == "sink":
-						print("ADDING SPECIAL ERROR sink: {} source: {}".format(argument.name, self.name))
+						#print("ADDING SPECIAL ERROR sink: {} source: {}".format(argument.name, self.name))
 						VulnerabilitiesReport.addError(pattern["vulnerability"], createErrorObject(argument.name, self.name, []))
 				if isinstance(argument, Function):
 					if argument.name in pattern["sinks"]:
-						print("ADDING SPECIAL ERROR sink: {} source: {}".format(argument.name, self.name))
+						#print("ADDING SPECIAL ERROR sink: {} source: {}".format(argument.name, self.name))
 						VulnerabilitiesReport.addError(pattern["vulnerability"], createErrorObject(argument.name, self.name, []))
 
 			isTaint = argument.isTainted(pattern, variablesBuffer, bodyListStatements)
@@ -88,7 +88,7 @@ class Function:
 
 		if self.name in pattern["sinks"] and len(argumentsTainted) != 0:
 			for argument in argumentsTainted:
-				print("FINDING ERROR sink: {} expression: {}".format(self.name, argument))
+				#print("FINDING ERROR sink: {} expression: {}".format(self.name, argument))
 				iterateAndFindSourceOfError(pattern,variablesBuffer, self.name, argument, [])
 			return True
 			
@@ -127,7 +127,7 @@ class Body:
 	def isTainted(self, pattern, variablesBuffer, bodyStatementsList):
 		count = 0
 		for statement in bodyStatementsList:
-			print("Running:", statement)
+			#print("Running:", statement)
 			count += 1
 			if(count >= len(bodyStatementsList)):	
 				statement.isTainted(pattern, variablesBuffer, [])
@@ -161,7 +161,7 @@ class Assignment(Statement):
 			variablesBuffer[self.variable.name].errors = {}
 		if isExpressionTainted:
 			checkErrors(pattern, variablesBuffer, self.variable.name, self.expression, [])
-		print("Variable: {} -> errors: {}".format(self.variable.name, variablesBuffer[self.variable.name].errors))
+		#print("Variable: {} -> errors: {}".format(self.variable.name, variablesBuffer[self.variable.name].errors))
 		
 		#New assignment new variables
 		#sink = tainted -> ERROR
@@ -170,7 +170,7 @@ class Assignment(Statement):
 		#? = tainted -> tainted
 		#? = untainted -> untainted
 		if variablesBuffer[self.variable.name].type == "sink" and isExpressionTainted:
-			print("FINDING ERROR sink: {} expression: {}".format(self.variable.name, self.expression))
+			#print("FINDING ERROR sink: {} expression: {}".format(self.variable.name, self.expression))
 			iterateAndFindSourceOfError(pattern, variablesBuffer, self.variable.name, self.expression, [])
 			variablesBuffer[self.variable.name].tainted = True
 			variablesBuffer[self.variable.name].assigned = True
@@ -206,9 +206,9 @@ class If(Statement):
 			if taint:
 				errors = {pattern["vulnerability"] : []}
 				calculateErrorsOnExpression(pattern, variablesBuffer, self.condition, errors)
-				print("Errors:", errors)
+				#print("Errors:", errors)
 				expressionList = self.thenBlock.statementsList + self.elseBlock.statementsList
-				print("Expressions list to propagate: ", expressionList)
+				#print("Expressions list to propagate: ", expressionList)
 				for expression in expressionList:
 					propagateErrorsOnBodyStatements(pattern, variablesBuffer, expression, errors)
 
@@ -246,8 +246,8 @@ class While(Statement):
 			if taint:
 				errors = {pattern["vulnerability"] : []}
 				calculateErrorsOnExpression(pattern, variablesBuffer, self.condition, errors)
-				print("Errors:", errors)
-				print("Expressions list to propagate: ", self.block.statementsList)
+				#print("Errors:", errors)
+				#print("Expressions list to propagate: ", self.block.statementsList)
 				for expression in self.block.statementsList:
 					propagateErrorsOnBodyStatements(pattern, variablesBuffer, expression, errors)
 
@@ -275,17 +275,17 @@ def createErrorObjectFromVariableError(sinkName, variableErrorObject):
 	 		"sanitized flows": variableErrorObject["sanitized flows"]}
 
 def checkErrors(pattern, variablesBuffer, variableName, expressionToIterate, sanitizerFunctionsPassed):
-	print("expression on checkErrors: ", expressionToIterate)
+	#print("expression on checkErrors: ", expressionToIterate)
 	if isinstance(expressionToIterate, Variable):
 		target = variablesBuffer[expressionToIterate.name]
 		if target.type == "source":
-			print("FOUND ERROR: variableAssigned:'{}' and source:'{}' sanitizers:'{}'".format(variableName, target.name, sanitizerFunctionsPassed))
+			#print("FOUND ERROR: variableAssigned:'{}' and source:'{}' sanitizers:'{}'".format(variableName, target.name, sanitizerFunctionsPassed))
 			if pattern["vulnerability"] not in variablesBuffer[variableName].errors.keys():
 				variablesBuffer[variableName].errors[pattern["vulnerability"]] = []
 			variablesBuffer[variableName].errors[pattern["vulnerability"]].append(createVariableErrorObject(target.name, sanitizerFunctionsPassed))
 		
 		if target.tainted == True and target.name != variableName:
-			print("Copying errors from {} to variableAssigned: {}".format(target.name,variableName))
+			#print("Copying errors from {} to variableAssigned: {}".format(target.name,variableName))
 			vulnerabilityName = pattern["vulnerability"]
 			if vulnerabilityName not in target.errors.keys():
 				return
@@ -300,21 +300,19 @@ def checkErrors(pattern, variablesBuffer, variableName, expressionToIterate, san
 					elif isinstance(errorCopy["sanitized flows"][0], list):
 						for sanitizer in errorCopy["sanitized flows"]:
 							if sanitizerFunctionsPassed != sanitizer:
-								print(sanitizer, sanitizerFunctionsPassed)
 								sanitizer += sanitizerFunctionsPassed
 					else:
 						if sanitizerFunctionsPassed != errorCopy["sanitized flows"]:
-							print(sanitizer, sanitizerFunctionsPassed)
 							sanitizer += sanitizerFunctionsPassed
 					variablesBuffer[variableName].errors[vulnerabilityName].append(errorCopy)
-					print("Updated Sanitizers passed: ",variablesBuffer[variableName].errors[vulnerabilityName])
+					#print("Updated Sanitizers passed: ",variablesBuffer[variableName].errors[vulnerabilityName])
 				else:
 					variablesBuffer[variableName].errors[vulnerabilityName].append(errorCopy)
-					print("Updated Sanitizers passed: ",variablesBuffer[variableName].errors[vulnerabilityName])
+					#print("Updated Sanitizers passed: ",variablesBuffer[variableName].errors[vulnerabilityName])
 		
 		if target.tainted == True and target.name == variableName:
-			print("Updating sanitized paths from {} to variableAssigned: {}".format(target.name,variableName))
-			print("Previous errors on {} -> {}".format(target.name, target.errors))
+			#print("Updating sanitized paths from {} to variableAssigned: {}".format(target.name,variableName))
+			#print("Previous errors on {} -> {}".format(target.name, target.errors))
 			vulnerabilityName = pattern["vulnerability"]
 			if vulnerabilityName not in target.errors.keys():
 				target.errors[vulnerabilityName] = []
@@ -330,11 +328,11 @@ def checkErrors(pattern, variablesBuffer, variableName, expressionToIterate, san
 					else:
 						if sanitizerFunctionsPassed != error["sanitized flows"]:
 							sanitizer += sanitizerFunctionsPassed
-			print("New error on {} -> {}".format(target.name, variablesBuffer[variableName].errors))
+			#print("New error on {} -> {}".format(target.name, variablesBuffer[variableName].errors))
 
 	elif isinstance(expressionToIterate, Function):
 		if expressionToIterate.name in pattern["sanitizers"]:
-			print("FOUND SANITIZED FUNCTION", expressionToIterate.name)
+			#print("FOUND SANITIZED FUNCTION", expressionToIterate.name)
 			if len(sanitizerFunctionsPassed) != 0:
 				sanitizerFunctionsUpdate = copy.deepcopy(sanitizerFunctionsPassed)
 				sanitizerFunctionsUpdate.append(expressionToIterate.name)
@@ -345,7 +343,7 @@ def checkErrors(pattern, variablesBuffer, variableName, expressionToIterate, san
 			return
 
 		if expressionToIterate.name in pattern["sources"]:
-			print("FOUND ERROR: variableName:'{}' and source:'{}' sanitizers:'{}'".format(variableName, expressionToIterate.name, sanitizerFunctionsPassed))
+			#print("FOUND ERROR: variableName:'{}' and source:'{}' sanitizers:'{}'".format(variableName, expressionToIterate.name, sanitizerFunctionsPassed))
 			if pattern["vulnerability"] not in variablesBuffer[variableName].errors.keys():
 				variablesBuffer[variableName].errors[pattern["vulnerability"]] = []
 			variablesBuffer[variableName].errors[pattern["vulnerability"]].append(createVariableErrorObject( expressionToIterate.name, sanitizerFunctionsPassed))	
@@ -360,16 +358,16 @@ def checkErrors(pattern, variablesBuffer, variableName, expressionToIterate, san
 
 
 def iterateAndFindSourceOfError(pattern, variablesBuffer, sinkName, expressionToIterate, sanitizerFunctionsPassed):
-	print("expression on iterate: ", expressionToIterate)
+	#print("expression on iterate: ", expressionToIterate)
 	if isinstance(expressionToIterate, Variable):
 		target = variablesBuffer[expressionToIterate.name]
 		if target.type == "source":
-			print("ADDING ERROR: sink:'{}' and source:'{}' sanitizers:'{}'".format(sinkName, target.name, sanitizerFunctionsPassed))
+			#print("ADDING ERROR: sink:'{}' and source:'{}' sanitizers:'{}'".format(sinkName, target.name, sanitizerFunctionsPassed))
 			VulnerabilitiesReport.addError(pattern["vulnerability"], createErrorObject(sinkName, target.name, sanitizerFunctionsPassed))
 
 		for vulnerabilityName in target.errors.keys():
 			for error in target.errors[vulnerabilityName]:
-				print("ADDING COPIED ERROR: sink:'{}' and source:'{}' sanitizers:'{}'".format(sinkName, error["source"], error["sanitized flows"]))
+				#print("ADDING COPIED ERROR: sink:'{}' and source:'{}' sanitizers:'{}'".format(sinkName, error["source"], error["sanitized flows"]))
 				if len(sanitizerFunctionsPassed) != 0:
 					errorCopy = copy.deepcopy(error)
 					if len(errorCopy["sanitized flows"]) == 0:
@@ -398,7 +396,7 @@ def iterateAndFindSourceOfError(pattern, variablesBuffer, sinkName, expressionTo
 			return
 
 		if expressionToIterate.name in pattern["sources"]:
-			print("ADDED ERROR: sink:'{}' and source:'{}' sanitizers:'{}'".format(sinkName, expressionToIterate.name, sanitizerFunctionsPassed))
+			#print("ADDED ERROR: sink:'{}' and source:'{}' sanitizers:'{}'".format(sinkName, expressionToIterate.name, sanitizerFunctionsPassed))
 			VulnerabilitiesReport.addError(pattern["vulnerability"], createErrorObject(sinkName, expressionToIterate.name, sanitizerFunctionsPassed))
 
 		for argument in expressionToIterate.argsList:
@@ -410,23 +408,23 @@ def iterateAndFindSourceOfError(pattern, variablesBuffer, sinkName, expressionTo
 	
 
 def propagateErrorsOnBodyStatements(pattern, variablesBuffer, expressionToIterate, errors):
-	print("expression on propagate: ", expressionToIterate)
+	#print("expression on propagate: ", expressionToIterate)
 	if isinstance(expressionToIterate, Assignment):
 		target = variablesBuffer[expressionToIterate.variable.name]
 		if pattern["vulnerability"] not in target.errors.keys():
 			target.errors[pattern["vulnerability"]] = []
 		
 		for error in errors[pattern["vulnerability"]]:
-			print("Propagate Copying ERROR to '{}' with source:'{}' and sanitizers:'{}'".format(target.name, error["source"] , error["sanitized flows"]))
+			#print("Propagate Copying ERROR to '{}' with source:'{}' and sanitizers:'{}'".format(target.name, error["source"] , error["sanitized flows"]))
 			target.errors[pattern["vulnerability"]].append(error) 
 			if target.type == "sink":
-				print("Propagate ADDING ERROR: sink:'{}' and source:'{}' sanitizers:'{}'".format(target.name, error["source"] , error["sanitized flows"]))
+				#print("Propagate ADDING ERROR: sink:'{}' and source:'{}' sanitizers:'{}'".format(target.name, error["source"] , error["sanitized flows"]))
 				VulnerabilitiesReport.addError(pattern["vulnerability"], createErrorObject(target.name, error["source"], error["sanitized flows"]))
 
 	elif isinstance(expressionToIterate, Function):
 		if expressionToIterate.name in pattern["sink"]:
 			for error in errors[pattern["vulnerability"]]:
-				print("Propagate ADDED ERROR: sink:'{}' and source:'{}' sanitizers:'{}'".format(expressionToIterate.name, error["source"], error["sanitized flows"]))
+				#print("Propagate ADDED ERROR: sink:'{}' and source:'{}' sanitizers:'{}'".format(expressionToIterate.name, error["source"], error["sanitized flows"]))
 				VulnerabilitiesReport.addError(pattern["vulnerability"], createErrorObject(expressionToIterate.name,error["source"], error["sanitized flows"]))
 
 		functionIsSource = False
@@ -436,11 +434,11 @@ def propagateErrorsOnBodyStatements(pattern, variablesBuffer, expressionToIterat
 			if functionIsSource:
 				if isinstance(argument, Variable):
 					if variablesBuffer[argument.name].type == "sink":
-						print("Propagate ADDING SPECIAL ERROR sink: {} source: {}".format(argument.name,expressionToIterate.name))
+						#print("Propagate ADDING SPECIAL ERROR sink: {} source: {}".format(argument.name,expressionToIterate.name))
 						VulnerabilitiesReport.addError(pattern["vulnerability"], createErrorObject(argument.name, expressionToIterate.name, []))
 				if isinstance(argument, Function):
 					if argument.name in pattern["sinks"]:
-						print("Propagate ADDING SPECIAL ERROR sink: {} source: {}".format(argument.name, expressionToIterate.name))
+						#print("Propagate ADDING SPECIAL ERROR sink: {} source: {}".format(argument.name, expressionToIterate.name))
 						VulnerabilitiesReport.addError(pattern["vulnerability"], createErrorObject(argument.name, expressionToIterate.name, []))
 
 			propagateErrorsOnBodyStatements(pattern, variablesBuffer, argument, errors)
