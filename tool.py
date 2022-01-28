@@ -2,7 +2,6 @@ import sys, json, createObject, copy, utils
 from unittest import result
 from variablesBuffer import VariablesBuffer
 from vulnerabilitiesReport import VulnerabilitiesReport
-#import ast
 
 def objectAlreadyHasSanitizedFlow(sanitizedFlows, target):
     for sanitizedFlow in sanitizedFlows:
@@ -50,9 +49,7 @@ def cleanErrorsOutput(errorsObject):
 
         output += buffer
     return output
-
-
-    
+  
 def parsePatterns(patternsJson):
     result = []
     for pattern in patternsJson:
