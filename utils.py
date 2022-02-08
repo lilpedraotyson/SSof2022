@@ -288,7 +288,7 @@ def checkErrors(pattern, variablesBuffer, variableName, expressionToIterate, san
 								sanitizer += sanitizerFunctionsPassed
 					else:
 						if sanitizerFunctionsPassed != errorCopy["sanitized flows"]:
-							sanitizer += sanitizerFunctionsPassed
+							errorCopy["sanitized flows"] += sanitizerFunctionsPassed
 					variablesBuffer[variableName].errors[vulnerabilityName].append(errorCopy)
 				else:
 					variablesBuffer[variableName].errors[vulnerabilityName].append(errorCopy)

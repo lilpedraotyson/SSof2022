@@ -54,6 +54,11 @@ def createExpressionObject(valueObject):
     if valueObject["ast_type"] == "Compare":
         return createAstTypeCompare(valueObject)
 
+    if valueObject["ast_type"] == "BoolOp":
+        return createAstTypeBoolOp(valueObject)
+
+    if valueObject["ast_type"] == "UnaryOp":
+        return createAstTypeUnaryOp(valueObject)
     return None
 
 def createIfStatementObject(bodyObject, orElseObject, testObject):
@@ -101,6 +106,35 @@ def createAstTypeName(valueObject):
 
     return VariablesBuffer.getVariableObject(valueObject["id"])
 
+def createAstTypeBoolOp(object):
+    values = object["values"]
+    
+    if values[0]["ast_type"] == "Constant":
+        leftResult = utils.Constant(values[0]["value"])
+
+    if values[0]["ast_type"] == "Name":
+        leftResult = createAstTypeName(values[0])
+    
+    if values[0]["ast_type"] == "Call":
+        leftResult = createAstTypeCall(values[0])
+
+    auxRightResult =  []
+    for value in values[1:]:
+        valueObject = None
+        if value["ast_type"] == "Constant":
+            valueObject = utils.Constant(value["value"])
+
+        if value["ast_type"] == "Name":
+            valueObject = createAstTypeName(value)
+        
+        if value["ast_type"] == "Call":
+            valueObject = createAstTypeCall(value)
+        
+        auxRightResult.append(valueObject)
+    
+    righResult = createExpressionRecursevily(auxRightResult)
+
+    return utils.Expression(leftResult, righResult)
 
 def createAstTypeBinOp(object):
     rightSide = object["right"]
@@ -128,6 +162,35 @@ def createAstTypeBinOp(object):
 
     return utils.Expression(leftResult, righResult)
 
+def createAstTypeUnaryOp(object):
+    rightSide = object["operand"]
+    leftResult = utils.Constant(-1)
+
+    righResult = None
+    if rightSide["ast_type"] == "Constant":
+        righResult = utils.Constant(rightSide["value"])
+
+    if rightSide["ast_type"] == "Name":
+        righResult = createAstTypeName(rightSide)
+
+    if rightSide["ast_type"] == "Call":
+        righResult = createAstTypeCall(rightSide)
+
+    if rightSide["ast_type"] == "BinOp":
+        righResult = createAstTypeBinOp(rightSide)
+
+    if rightSide["ast_type"] == "Compare":
+        righResult = createAstTypeCompare(rightSide)
+
+    if rightSide["ast_type"] == "BoolOp":
+        righResult = createAstTypeBoolOp(rightSide)
+
+    if rightSide["ast_type"] == "UnaryOp":
+        righResult = createAstTypeUnaryOp(rightSide)
+
+    return utils.Expression(leftResult, righResult)
+
+
 def createAstTypeCompare(object):
     comparators = object["comparators"]
     leftSide = object["left"]
@@ -136,6 +199,8 @@ def createAstTypeCompare(object):
         leftResult = createAstTypeBinOp(leftSide)
     if leftSide["ast_type"] == "Name":
         leftResult = createAstTypeName(leftSide)
+    if leftSide["ast_type"] == "Call":
+        leftResult = createAstTypeCall(leftSide)
     
     righResult = None
     if len(comparators) == 1:
@@ -145,6 +210,9 @@ def createAstTypeCompare(object):
 
         if comparator["ast_type"] == "Name":
             righResult = createAstTypeName(comparator)
+        
+        if comparator["ast_type"] == "Call":
+            righResult = createAstTypeCall(comparator)
 
     else:
         auxRightResult =  []
@@ -155,6 +223,9 @@ def createAstTypeCompare(object):
 
             if comparator["ast_type"] == "Name":
                 comparatorObject = createAstTypeName(comparator)
+            
+            if comparator["ast_type"] == "Call":
+                righResult = createAstTypeCall(comparator)
             
             auxRightResult.append(comparatorObject)
         
