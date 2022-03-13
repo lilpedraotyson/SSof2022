@@ -308,7 +308,7 @@ def checkErrors(pattern, variablesBuffer, variableName, expressionToIterate, san
 								sanitizer += sanitizerFunctionsPassed
 					else:
 						if sanitizerFunctionsPassed != error["sanitized flows"]:
-							sanitizer += sanitizerFunctionsPassed
+							error["sanitized flows"] += sanitizerFunctionsPassed
 
 	elif isinstance(expressionToIterate, Function):
 		if expressionToIterate.name in pattern["sanitizers"]:
@@ -354,7 +354,7 @@ def iterateAndFindSourceOfError(pattern, variablesBuffer, sinkName, expressionTo
 								sanitizer += sanitizerFunctionsPassed
 					else:
 						if sanitizerFunctionsPassed != errorCopy["sanitized flows"]:
-							sanitizer += sanitizerFunctionsPassed
+							errorCopy["sanitized flows"] += sanitizerFunctionsPassed
 					VulnerabilitiesReport.addError(vulnerabilityName,createErrorObjectFromVariableError(sinkName, errorCopy))
 				else:
 					VulnerabilitiesReport.addError(vulnerabilityName,createErrorObjectFromVariableError(sinkName, error))
@@ -393,7 +393,7 @@ def propagateErrorsOnBodyStatements(pattern, variablesBuffer, expressionToIterat
 				VulnerabilitiesReport.addError(pattern["vulnerability"], createErrorObject(target.name, error["source"], error["sanitized flows"]))
 
 	elif isinstance(expressionToIterate, Function):
-		if expressionToIterate.name in pattern["sink"]:
+		if expressionToIterate.name in pattern["sinks"]:
 			for error in errors[pattern["vulnerability"]]:
 				VulnerabilitiesReport.addError(pattern["vulnerability"], createErrorObject(expressionToIterate.name,error["source"], error["sanitized flows"]))
 

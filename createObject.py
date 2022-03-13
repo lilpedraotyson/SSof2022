@@ -59,6 +59,7 @@ def createExpressionObject(valueObject):
 
     if valueObject["ast_type"] == "UnaryOp":
         return createAstTypeUnaryOp(valueObject)
+
     return None
 
 def createIfStatementObject(bodyObject, orElseObject, testObject):
@@ -112,11 +113,14 @@ def createAstTypeBoolOp(object):
     if values[0]["ast_type"] == "Constant":
         leftResult = utils.Constant(values[0]["value"])
 
-    if values[0]["ast_type"] == "Name":
+    elif values[0]["ast_type"] == "Name":
         leftResult = createAstTypeName(values[0])
     
-    if values[0]["ast_type"] == "Call":
+    elif values[0]["ast_type"] == "Call":
         leftResult = createAstTypeCall(values[0])
+    
+    else: 
+        leftResult = createExpressionObject(values[0])
 
     auxRightResult =  []
     for value in values[1:]:
@@ -124,12 +128,15 @@ def createAstTypeBoolOp(object):
         if value["ast_type"] == "Constant":
             valueObject = utils.Constant(value["value"])
 
-        if value["ast_type"] == "Name":
+        elif value["ast_type"] == "Name":
             valueObject = createAstTypeName(value)
         
-        if value["ast_type"] == "Call":
+        elif value["ast_type"] == "Call":
             valueObject = createAstTypeCall(value)
-        
+
+        else: 
+            valueObject = createExpressionObject(value)
+
         auxRightResult.append(valueObject)
     
     righResult = createExpressionRecursevily(auxRightResult)
@@ -140,25 +147,31 @@ def createAstTypeBinOp(object):
     rightSide = object["right"]
     leftSide = object["left"]
     leftResult = None
-    if leftSide["ast_type"] == "BinOp":
-        leftResult = createAstTypeBinOp(leftSide)
 
     if leftSide["ast_type"] == "Name":
         leftResult = createAstTypeName(leftSide)
 
-    if leftSide["ast_type"] == "Call":
+    elif leftSide["ast_type"] == "Call":
         leftResult = createAstTypeCall(leftSide)
     
+    elif leftSide["ast_type"] == "Constant":
+        leftResult = utils.Constant(leftSide["value"])
+    
+    else:
+        leftResult = createExpressionObject(leftSide)
 
     righResult = None
     if rightSide["ast_type"] == "Constant":
         righResult = utils.Constant(rightSide["value"])
 
-    if rightSide["ast_type"] == "Name":
+    elif rightSide["ast_type"] == "Name":
         righResult = createAstTypeName(rightSide)
 
-    if rightSide["ast_type"] == "Call":
+    elif rightSide["ast_type"] == "Call":
         righResult = createAstTypeCall(rightSide)
+    
+    else:
+        righResult = createExpressionObject(rightSide)
 
     return utils.Expression(leftResult, righResult)
 
